@@ -87,7 +87,6 @@ public class EnderecoService {
     public void delete(Integer id) throws Exception {
         log.debug("Entrando na EnderecoService");
         Endereco enderecoRecuperado = getEndereco(id);
-        System.out.println(enderecoRecuperado);
         enderecoRepository.delete(enderecoRecuperado);
         Pessoa pessoaEntity = pessoaService.getPessoa(enderecoRecuperado.getIdPessoa());
         emailService.sendEmail(pessoaEntity, "de");
@@ -95,7 +94,7 @@ public class EnderecoService {
 
     private Endereco getEndereco(Integer id) throws Exception {
         Endereco enderecoRecuperado = enderecoRepository.list().stream()
-                .filter(endereco ->endereco.getIdEndereco().equals(id))
+                .filter(endereco ->endereco.getIdPessoa().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
         return enderecoRecuperado;
