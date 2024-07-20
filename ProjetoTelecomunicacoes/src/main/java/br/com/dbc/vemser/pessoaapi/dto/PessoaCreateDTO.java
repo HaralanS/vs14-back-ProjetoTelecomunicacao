@@ -32,4 +32,10 @@ public class PessoaCreateDTO {
     @Email
     private String email;
 
+    @Schema(description = "Numero de telefone com ddd", example = "47999556687")
+    @NotNull
+    @Size(min = 10, max = 11)
+    private Integer numeroTelefone;
+
+
 }
