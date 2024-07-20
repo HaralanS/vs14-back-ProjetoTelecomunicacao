@@ -20,13 +20,20 @@ public class FaturaCreateDTO {
     @NotNull
     private LocalDate dataVencimento;
 
+    @Schema(description = "Data de pagamento da fatura", example = "2025-01-01")
+    private LocalDate dataBaixa;
+
     @Schema(description = "Valor da fatura", example = "99,90")
     @NotNull
-    private double valor;
+    private double parcelaDoPlano;
 
-    @Schema(description = "Numero de telefone com ddd", example = "47999556687")
+    @Schema(description = "Valor da fatura", example = "99,90")
+    private double valorPago;
+
+    @Schema(description = "Numero da fatura", example = "2")
     @NotNull
-    @Size(min = 10, max = 11)
-    private Integer numeroTelefone;
+    private Integer numeroFatura;
+
+
 
 }

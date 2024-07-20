@@ -12,6 +12,9 @@ public class Fatura {
     private Integer idFatura;
     private Integer idCliente;
     private LocalDate dataVencimento;
-    private double valor;
+    private LocalDate dataBaixa;
+    private double parcelaDoPlano;
+    private double valorPago;
+    private Integer numeroFatura;
 }
 

@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
+import br.com.dbc.vemser.pessoaapi.entity.planos.TipoDePlano;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,5 +16,6 @@ public class Pessoa {
     private String cpf;
     private String email;
     private Integer numeroTelefone;
+    private TipoDePlano tipoDePlano;
 
 }
