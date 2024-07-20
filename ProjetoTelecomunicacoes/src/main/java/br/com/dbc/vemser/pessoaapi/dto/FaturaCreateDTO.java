@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Data
@@ -22,5 +23,10 @@ public class FaturaCreateDTO {
     @Schema(description = "Valor da fatura", example = "99,90")
     @NotNull
     private double valor;
+
+    @Schema(description = "Numero de telefone com ddd", example = "47999556687")
+    @NotNull
+    @Size(min = 10, max = 11)
+    private Integer numeroTelefone;
 
 }
