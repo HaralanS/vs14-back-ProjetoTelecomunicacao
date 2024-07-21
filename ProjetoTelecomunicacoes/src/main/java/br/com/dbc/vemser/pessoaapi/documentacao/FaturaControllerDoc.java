@@ -27,27 +27,27 @@ public interface FaturaControllerDoc {
     public ResponseEntity<List<FaturaDTO>> listByClient(@PathVariable("idCliente") Integer id) throws Exception;
 
 
-    @Operation(summary = "Cria uma pessoa.", description = "Cria uma nova pessoa.")
+    @Operation(summary = "Cria uma fatura.", description = "Cria uma nova fatura.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a pessoa criada."),
+                    @ApiResponse(responseCode = "200", description = "Retorna a fatura criada."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @PostMapping // POST localhost:8080/pessoa
+    @PostMapping // POST localhost:8080/fatura
     public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaCreateDTO pessoa) throws Exception;
 
-    @Operation(summary = "Atualizar uma pessoa.", description = "Atualiza uma pessoa pelo id dela.")
+    @Operation(summary = "Atualizar uma fatura.", description = "Atualiza uma fatura pelo id dela.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a pessoa atualizada."),
+                    @ApiResponse(responseCode = "200", description = "Retorna a fatura atualizada."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @PutMapping("/{idPessoa}") // PUT localhost:8080/pessoa/1000
-    public ResponseEntity<PessoaDTO> update(@PathVariable("idPessoa") Integer id, @Valid @RequestBody PessoaCreateDTO pessoaAtualizar) throws Exception;
+    @PutMapping("/{idPessoa}") // PUT localhost:8080/fatura/1
+    public ResponseEntity<PessoaDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody PessoaCreateDTO pessoaAtualizar) throws Exception;
 
 
 }
