@@ -61,7 +61,7 @@ public class FaturaService {
         return faturaDTO;
     }
 
-    public Fatura getFatura(Integer idFatura) throws Exception {
+    private Fatura getFatura(Integer idFatura) throws Exception {
         Fatura faturaRecuperada = faturaRepository.list().stream().filter(fatura -> fatura.getIdFatura()
                 .equals(idFatura)).findFirst().orElseThrow(() -> new RegraDeNegocioException("Fatura não encontrada!"));
 
