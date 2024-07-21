@@ -1,5 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.dto;
 
+import br.com.dbc.vemser.pessoaapi.entity.planos.Plano;
+import br.com.dbc.vemser.pessoaapi.entity.planos.TipoDePlano;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,8 +36,15 @@ public class PessoaCreateDTO {
 
     @Schema(description = "Numero de telefone com ddd", example = "47999556687")
     @NotNull
-    @Size(min = 10, max = 11)
     private Integer numeroTelefone;
+
+    @Schema(description = "Status do cliente", example = "true")
+    @NotNull
+    private boolean status;
+
+    @Schema(description = "Tipo de plano de 1 a 3", example = "2")
+    @NotNull
+    private TipoDePlano tipoDePlano;
 
 
 }

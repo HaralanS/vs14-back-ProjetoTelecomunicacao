@@ -33,6 +33,10 @@ public class FaturaRepository {
         return listaFaturas.stream().filter(fatura -> fatura.getIdCliente() == idCliente).collect(Collectors.toList());
     }
 
+    public int getIdFatura(){
+        return COUNTERFATURA.incrementAndGet();
+    }
+
 
 
         /*

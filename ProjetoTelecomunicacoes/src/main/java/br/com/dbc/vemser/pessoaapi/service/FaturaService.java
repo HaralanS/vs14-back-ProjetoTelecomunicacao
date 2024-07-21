@@ -34,10 +34,15 @@ public class FaturaService {
     }
 
     public List<FaturaDTO> listByClient(Integer idCliente){
-        List<FaturaDTO> list = faturaRepository.listByClient(idCliente).stream()
+        List<Fatura> list = faturaRepository.listByClient(idCliente).stream()
+                .filter(fatura -> fatura.getIdCliente().equals(idCliente))
+                .collect(Collectors.toList());
+        List<FaturaDTO> faturasDto = list.stream()
                 .map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class))
                 .collect(Collectors.toList());
-        return list;
+
+
+        return faturasDto;
     }
 
 
