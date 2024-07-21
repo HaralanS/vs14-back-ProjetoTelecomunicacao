@@ -24,7 +24,7 @@ public interface EnderecoControllerDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @GetMapping // GET localhost:8080/endereco
+    @GetMapping // GET localhost:8080/endereco/idPessoa
     public ResponseEntity<List<EnderecoDTO>> list();
 
     @Operation(summary = "Cria um endereco.", description = "Cria um novo endereço.")
@@ -41,7 +41,7 @@ public interface EnderecoControllerDoc {
     @Operation(summary = "Atualizar um endereço.", description = "Atualiza um endereço pelo id dele.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a pessoa atualizada."),
+                    @ApiResponse(responseCode = "200", description = "Retorna o endereço atualizado."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
