@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.pessoaapi.controller;
 
-import br.com.dbc.vemser.pessoaapi.documentacao.EnderecoControllerDoc;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
 import br.com.dbc.vemser.pessoaapi.service.EnderecoService;
@@ -17,7 +16,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/endereco")
-public class EnderecoController  {
+public class EnderecoController {
 
     private final EnderecoService enderecoService;
 
@@ -32,7 +31,6 @@ public class EnderecoController  {
 //        log.debug("Listagem concluida com sucesso!");
 //        return new ResponseEntity<>(list, HttpStatus.OK);
 //    }
-
 
 //    @GetMapping("/{idEndereco}") // GET http://localhost:8080/endereco/{idPessoa}
 //    public ResponseEntity<List<EnderecoDTO>> listById(@PathVariable("idEndereco") Integer id) {
