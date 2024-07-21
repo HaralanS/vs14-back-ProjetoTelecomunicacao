@@ -32,24 +32,24 @@ public class EnderecoService {
         this.emailService = emailService;
     }
 
-    public List<EnderecoDTO> list(){
-        log.debug("Entrando na EnderecoService");
-        List<EnderecoDTO> list = enderecoRepository.list()
-                .stream()
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
-                .collect(Collectors.toList());
-        return list;
-    }
+//    public List<EnderecoDTO> list(){
+//        log.debug("Entrando na EnderecoService");
+//        List<EnderecoDTO> list = enderecoRepository.list()
+//                .stream()
+//                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+//                .collect(Collectors.toList());
+//        return list;
+//    }
 
-    public List<EnderecoDTO> listById(Integer id) {
-        log.debug("Entrando na EnderecoService");
-        List<EnderecoDTO> list = enderecoRepository.list()
-                .stream()
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
-                .filter(enderecoDTO -> enderecoDTO.getIdEndereco().equals(id))
-                .collect(Collectors.toList());
-        return list;
-    }
+//    public List<EnderecoDTO> listById(Integer id) {
+//        log.debug("Entrando na EnderecoService");
+//        List<EnderecoDTO> list = enderecoRepository.list()
+//                .stream()
+//                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+//                .filter(enderecoDTO -> enderecoDTO.getIdEndereco().equals(id))
+//                .collect(Collectors.toList());
+//        return list;
+//    }
 
     public List<EnderecoDTO> listByIdPessoa(Integer id) {
         log.debug("Entrando na EnderecoService");
