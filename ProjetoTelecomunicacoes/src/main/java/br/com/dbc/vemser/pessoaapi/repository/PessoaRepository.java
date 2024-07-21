@@ -1,7 +1,8 @@
 package br.com.dbc.vemser.pessoaapi.repository;
 
+import br.com.dbc.vemser.pessoaapi.entity.Fatura;
 import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
-import br.com.dbc.vemser.pessoaapi.entity.planos.TipoDePlano;
+import br.com.dbc.vemser.pessoaapi.entity.planos.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -17,14 +18,17 @@ import java.util.stream.Collectors;
 public class PessoaRepository {
     private static List<Pessoa> listaPessoas = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
+    private final FaturaRepository faturaRepository;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //18/10/2020
 
-    public PessoaRepository() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //18/10/2020
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*1*/, "Maicon Gerardi", LocalDate.parse("10/10/1990", formatter), "12345678910", "juazin1@gmail.com", 1234567891, TipoDePlano.BASICO));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*2*/, "Charles Pereira", LocalDate.parse("08/05/1985", formatter), "12345678911", "juazin2@gmail.com", 1234567891, TipoDePlano.BASICO));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*3*/, "Marina Oliveira", LocalDate.parse("30/03/1970", formatter), "12345678912", "juazin3@gmail.com", 1234567891, TipoDePlano.BASICO));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*4*/, "Rafael Lazzari", LocalDate.parse("01/07/1990", formatter), "12345678916", "juazin4@gmail.com", 1234567891, TipoDePlano.BASICO));
-        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*5*/, "Ana", LocalDate.parse("01/07/1990", formatter), "12345678917", "juazin5@gmail.com", 1234567891, TipoDePlano.BASICO));
+    public PessoaRepository(FaturaRepository faturaRepository) {
+        this.faturaRepository = faturaRepository;
+
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*1*/, "Maicon Gerardi", LocalDate.parse("10/10/1990", formatter), "12345678910", "juazin1@gmail.com", 1234567891, TipoDePlano.BASICO, true));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*2*/, "Charles Pereira", LocalDate.parse("08/05/1985", formatter), "12345678911", "juazin2@gmail.com", 1234567891, TipoDePlano.BASICO, true));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*3*/, "Marina Oliveira", LocalDate.parse("30/03/1970", formatter), "12345678912", "juazin3@gmail.com", 1234567891, TipoDePlano.BASICO, true));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*4*/, "Rafael Lazzari", LocalDate.parse("01/07/1990", formatter), "12345678916", "juazin4@gmail.com", 1234567891, TipoDePlano.BASICO, true));
+        listaPessoas.add(new Pessoa(COUNTER.incrementAndGet() /*5*/, "Ana", LocalDate.parse("01/07/1990", formatter), "12345678917", "juazin5@gmail.com", 1234567891, TipoDePlano.BASICO, true));
     }
 
     public List<Pessoa> list() {
@@ -40,6 +44,24 @@ public class PessoaRepository {
     public Pessoa create(Pessoa pessoa) {
         log.debug("Entrando na PessoaRepository");
         pessoa.setIdPessoa(COUNTER.incrementAndGet());
+        Plano plano = null;
+        switch (pessoa.getTipoDePlano()){
+            case BASICO:
+                plano = new PlanoBasico();
+                break;
+            case MEDIUM:
+                plano = new PlanoMedium();
+                break;
+            case PREMIUM:
+                plano = new PlanoPremium();
+                break;
+        }
+        LocalDate dataAtual = LocalDate.now();
+        for (int i = 0; i < 12; i++) {
+            LocalDate dataVencimento = dataAtual.plusMonths((i + 1));
+            Fatura fatura = new Fatura(faturaRepository.getIdFatura(), pessoa.getIdPessoa(), dataVencimento, null, plano.getValor(), 0, (i+1));
+            faturaRepository.create(fatura);
+        }
         listaPessoas.add(pessoa);
         return pessoa;
     }
@@ -54,7 +76,7 @@ public class PessoaRepository {
 
     public void delete(Pessoa pessoa) {
         log.debug("Entrando na PessoaRepository");
-        listaPessoas.remove(pessoa);
+        pessoa.setStatus(false);
     }
 
 }

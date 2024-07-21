@@ -37,7 +37,7 @@ public class FaturaController {
         return new ResponseEntity<>(faturaDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/pessoa/{idCliente}") // GET http://localhost:8080/fatura/{idFatura}
+    @GetMapping("/pessoafatura/{idCliente}") // GET http://localhost:8080/fatura/{idFatura}
     public ResponseEntity<List<FaturaDTO>> listByClient(@PathVariable("idCliente") Integer id) throws Exception {
         List<FaturaDTO> listaFaturas = faturaService.listByClient(id);
         return new ResponseEntity<>(listaFaturas, HttpStatus.OK);

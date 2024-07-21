@@ -49,7 +49,7 @@ public class PessoaService {
         Pessoa pessoaEntity = objectMapper.convertValue(dto, Pessoa.class);
         pessoaRepository.create(pessoaEntity);
         PessoaDTO pessoaDTO = objectMapper.convertValue(pessoaEntity, PessoaDTO.class);
-        emailService.sendEmail(pessoaEntity, "cp");
+//        emailService.sendEmail(pessoaEntity, "cp");
         return pessoaDTO;
     }
 
