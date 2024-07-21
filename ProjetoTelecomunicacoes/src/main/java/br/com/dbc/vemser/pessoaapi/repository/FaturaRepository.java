@@ -1,9 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.repository;
 
 import br.com.dbc.vemser.pessoaapi.entity.Fatura;
-import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.logging.java.JavaLoggingSystem;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -31,9 +29,25 @@ public class FaturaRepository {
     public List<Fatura> list() {
         return listaFaturas;
     }
-    public List<Fatura> listBrClient(Integer idCliente) {
-        return listaFaturas.stream().filter(fatura -> fatura.getIdFatura() == idCliente).collect(Collectors.toList());
+    public List<Fatura> listByClient(Integer idCliente) {
+        return listaFaturas.stream().filter(fatura -> fatura.getIdCliente() == idCliente).collect(Collectors.toList());
     }
+
+
+
+        /*
+            public List<Fatura> findById(Integer idFatura) {
+        return listaFaturas.stream().filter(fatura -> fatura.getIdFatura() == idFatura).collect(Collectors.toList());
+    }
+
+        public Pessoa getPessoa(Integer id) throws Exception {
+        Pessoa pessoaRecuperada = pessoaRepository.list().stream()
+                .filter(pessoa -> pessoa.getIdPessoa().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada!"));
+        return pessoaRecuperada;
+    }
+     */
 
     public Fatura create(Fatura fatura) {
         fatura.setIdFatura(COUNTERFATURA.incrementAndGet());
@@ -53,6 +67,12 @@ public class FaturaRepository {
 
         return faturaAtualizar;
     }
+
+    public void delete(Fatura fatura) {
+        listaFaturas.remove(fatura);
+    }
+
+
 
 
 
