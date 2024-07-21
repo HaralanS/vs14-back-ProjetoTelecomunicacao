@@ -2,8 +2,6 @@ package br.com.dbc.vemser.pessoaapi.documentacao;
 
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

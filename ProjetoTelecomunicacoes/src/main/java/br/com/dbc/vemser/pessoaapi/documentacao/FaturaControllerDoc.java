@@ -1,8 +1,8 @@
 package br.com.dbc.vemser.pessoaapi.documentacao;
 
 import br.com.dbc.vemser.pessoaapi.dto.FaturaDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
+import br.com.dbc.vemser.pessoaapi.dto.ClienteCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.ClienteDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,7 +36,7 @@ public interface FaturaControllerDoc {
             }
     )
     @PostMapping // POST localhost:8080/fatura
-    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaCreateDTO pessoa) throws Exception;
+    public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteCreateDTO pessoa) throws Exception;
 
     @Operation(summary = "Atualizar uma fatura.", description = "Atualiza uma fatura pelo id dela.")
     @ApiResponses(
@@ -47,7 +47,7 @@ public interface FaturaControllerDoc {
             }
     )
     @PutMapping("/{idPessoa}") // PUT localhost:8080/fatura/1
-    public ResponseEntity<PessoaDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody PessoaCreateDTO pessoaAtualizar) throws Exception;
+    public ResponseEntity<ClienteDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody ClienteCreateDTO pessoaAtualizar) throws Exception;
 
 
 }

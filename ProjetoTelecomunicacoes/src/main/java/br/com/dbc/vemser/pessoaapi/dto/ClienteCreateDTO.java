@@ -1,12 +1,10 @@
 package br.com.dbc.vemser.pessoaapi.dto;
 
-import br.com.dbc.vemser.pessoaapi.entity.planos.Plano;
 import br.com.dbc.vemser.pessoaapi.entity.planos.TipoDePlano;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -14,7 +12,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PessoaCreateDTO {
+public class ClienteCreateDTO {
 
     @Schema(description = "Nome da Pessoa", example = "Rafael Lazzari")
     @NotBlank

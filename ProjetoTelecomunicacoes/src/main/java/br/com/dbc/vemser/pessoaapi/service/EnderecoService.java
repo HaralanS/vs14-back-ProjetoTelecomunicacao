@@ -3,9 +3,8 @@ package br.com.dbc.vemser.pessoaapi.service;
 
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.EnderecoDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Endereco;
-import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.entity.Cliente;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.pessoaapi.repository.EnderecoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,13 +20,13 @@ import java.util.stream.Collectors;
 public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
-    private final PessoaService pessoaService;
+    private final ClienteService clienteService;
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
 
-    public EnderecoService(EnderecoRepository enderecoRepository, PessoaService pessoaService, ObjectMapper objectMapper, EmailService emailService) {
+    public EnderecoService(EnderecoRepository enderecoRepository, ClienteService clienteService, ObjectMapper objectMapper, EmailService emailService) {
         this.enderecoRepository = enderecoRepository;
-        this.pessoaService = pessoaService;
+        this.clienteService = clienteService;
         this.objectMapper = objectMapper;
         this.emailService = emailService;
     }
@@ -67,20 +66,20 @@ public class EnderecoService {
         Endereco enderecoEntity = objectMapper.convertValue(dto, Endereco.class);
         enderecoRepository.create(id, enderecoEntity);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
-        Pessoa pessoaEntity = pessoaService.getPessoa(id);
-        emailService.sendEmail(pessoaEntity, "ce");
+        Cliente clienteEntity = clienteService.getPessoa(id);
+        emailService.sendEmail(clienteEntity, "ce");
         return enderecoDTO;
     }
 
     public EnderecoDTO update(Integer id, EnderecoCreateDTO dto) throws Exception {
         log.debug("Entrando na EnderecoService");
-        pessoaService.getPessoa(id);
+        clienteService.getPessoa(id);
         Endereco enderecoEntity = objectMapper.convertValue(dto, Endereco.class);
         Endereco enderecoRecuperado = getEndereco(id);
         enderecoRepository.update(id, enderecoEntity, enderecoRecuperado);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
-        Pessoa pessoaEntity = pessoaService.getPessoa(enderecoDTO.getIdPessoa());
-        emailService.sendEmail(pessoaEntity, "ue");
+        Cliente clienteEntity = clienteService.getPessoa(enderecoDTO.getIdPessoa());
+        emailService.sendEmail(clienteEntity, "ue");
         return enderecoDTO;
     }
 
@@ -88,8 +87,8 @@ public class EnderecoService {
         log.debug("Entrando na EnderecoService");
         Endereco enderecoRecuperado = getEndereco(id);
         enderecoRepository.delete(enderecoRecuperado);
-        Pessoa pessoaEntity = pessoaService.getPessoa(enderecoRecuperado.getIdPessoa());
-        emailService.sendEmail(pessoaEntity, "de");
+        Cliente clienteEntity = clienteService.getPessoa(enderecoRecuperado.getIdPessoa());
+        emailService.sendEmail(clienteEntity, "de");
     }
 
     private Endereco getEndereco(Integer id) throws Exception {

@@ -1,6 +1,5 @@
 package br.com.dbc.vemser.pessoaapi.entity;
 
-import br.com.dbc.vemser.pessoaapi.entity.planos.Plano;
 import br.com.dbc.vemser.pessoaapi.entity.planos.TipoDePlano;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class Pessoa {
+public class Cliente {
 
     private Integer idPessoa;
     private String nome;
@@ -20,4 +19,7 @@ public class Pessoa {
     private TipoDePlano tipoDePlano;
     private boolean status;
 
+    public Cliente() {
+
+    }
 }

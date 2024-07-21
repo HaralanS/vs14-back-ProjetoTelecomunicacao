@@ -25,17 +25,17 @@ public class FaturaController {
         this.faturaService = faturaService;
     }
 
-    @GetMapping // GET localhost:8080/fatura
-    public ResponseEntity<List<FaturaDTO>> list() {
-        List<FaturaDTO> listaFaturas = faturaService.list();
-        return new ResponseEntity<>(listaFaturas, HttpStatus.OK);
-    }
+//    @GetMapping // GET localhost:8080/fatura
+//    public ResponseEntity<List<FaturaDTO>> list() {
+//        List<FaturaDTO> listaFaturas = faturaService.list();
+//        return new ResponseEntity<>(listaFaturas, HttpStatus.OK);
+//    }
 
-    @GetMapping("/{idFatura}") // GET http://localhost:8080/fatura/{idFatura}
-    public ResponseEntity<FaturaDTO> findByIdDTO(@PathVariable("idFatura") Integer id) throws Exception {
-        FaturaDTO faturaDTO = faturaService.findByIdDTO(id);
-        return new ResponseEntity<>(faturaDTO, HttpStatus.OK);
-    }
+//    @GetMapping("/{idFatura}") // GET http://localhost:8080/fatura/{idFatura}
+//    public ResponseEntity<FaturaDTO> findByIdDTO(@PathVariable("idFatura") Integer id) throws Exception {
+//        FaturaDTO faturaDTO = faturaService.findByIdDTO(id);
+//        return new ResponseEntity<>(faturaDTO, HttpStatus.OK);
+//    }
 
     @GetMapping("/pessoafatura/{idCliente}") // GET http://localhost:8080/fatura/{idFatura}
     public ResponseEntity<List<FaturaDTO>> listByClient(@PathVariable("idCliente") Integer id) throws Exception {
@@ -43,13 +43,13 @@ public class FaturaController {
         return new ResponseEntity<>(listaFaturas, HttpStatus.OK);
     }
 
-    @PostMapping // POST localhost:8080/pessoa
-    public ResponseEntity<FaturaDTO> create (@Valid @RequestBody FaturaCreateDTO fatura) throws Exception {
-        log.debug("Criando uma fatura!");
-        FaturaDTO faturaDTO = faturaService.create(fatura);
-        log.debug("Fatura criada com sucesso!");
-        return new ResponseEntity<>(faturaDTO, HttpStatus.OK);
-    }
+//    @PostMapping // POST localhost:8080/pessoa
+//    public ResponseEntity<FaturaDTO> create (@Valid @RequestBody FaturaCreateDTO fatura) throws Exception {
+//        log.debug("Criando uma fatura!");
+//        FaturaDTO faturaDTO = faturaService.create(fatura);
+//        log.debug("Fatura criada com sucesso!");
+//        return new ResponseEntity<>(faturaDTO, HttpStatus.OK);
+//    }
 
     @PutMapping("/pagar/cliente/{idCliente}") // PUT localhost:8080/pessoa/1000
     public ResponseEntity<FaturaDTO> pagarFatura(@PathVariable("idCliente") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception {
@@ -57,12 +57,12 @@ public class FaturaController {
         return new ResponseEntity<>(faturaDTO, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{idFatura}") // DELETE localhost:8080/pessoa/10
-    public ResponseEntity<Void> delete(@PathVariable("idFatura") Integer id) throws Exception {
-
-        faturaService.delete(id);
-        return ResponseEntity.ok().build();
-    }
+//    @DeleteMapping("/{idFatura}") // DELETE localhost:8080/pessoa/10
+//    public ResponseEntity<Void> delete(@PathVariable("idFatura") Integer id) throws Exception {
+//
+//        faturaService.delete(id);
+//        return ResponseEntity.ok().build();
+//    }
 
 
 }

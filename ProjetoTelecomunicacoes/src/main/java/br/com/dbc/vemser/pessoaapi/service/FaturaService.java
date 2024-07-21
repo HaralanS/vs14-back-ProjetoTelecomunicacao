@@ -59,12 +59,12 @@ public class FaturaService {
         return faturaDTO;
     }
 
-    public FaturaDTO findByIdDTO(Integer idFatura) throws Exception {
-        Fatura faturaRecuperada = faturaRepository.list().stream().filter(fatura -> fatura.getIdFatura()
-                .equals(idFatura)).findFirst().orElseThrow(() -> new RegraDeNegocioException("Fatura não encontrada!"));
-        FaturaDTO faturaDTO = objectMapper.convertValue(faturaRecuperada, FaturaDTO.class);
-        return faturaDTO;
-    }
+//    public FaturaDTO findByIdDTO(Integer idFatura) throws Exception {
+//        Fatura faturaRecuperada = faturaRepository.list().stream().filter(fatura -> fatura.getIdFatura()
+//                .equals(idFatura)).findFirst().orElseThrow(() -> new RegraDeNegocioException("Fatura não encontrada!"));
+//        FaturaDTO faturaDTO = objectMapper.convertValue(faturaRecuperada, FaturaDTO.class);
+//        return faturaDTO;
+//    }
 
     private Fatura getFatura(Integer idFatura) throws Exception {
         Fatura faturaRecuperada = faturaRepository.list().stream().filter(fatura -> fatura.getIdFatura()

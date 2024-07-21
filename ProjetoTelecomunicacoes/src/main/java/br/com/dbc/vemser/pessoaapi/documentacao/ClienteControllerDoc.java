@@ -1,8 +1,7 @@
 package br.com.dbc.vemser.pessoaapi.documentacao;
 
-import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
-import br.com.dbc.vemser.pessoaapi.dto.PessoaDTO;
-import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.dto.ClienteCreateDTO;
+import br.com.dbc.vemser.pessoaapi.dto.ClienteDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -13,18 +12,18 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-public interface PessoaControllerDoc {
+public interface ClienteControllerDoc {
 
-    @Operation(summary = "Listar pessoas.", description = "Lista todas as pessoas do banco.")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna uma lista de pessoas."),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
-            }
-    )
-    @GetMapping // GET localhost:8080/pessoa
-    public ResponseEntity<List<PessoaDTO>> list();
+//    @Operation(summary = "Listar pessoas.", description = "Lista todas as pessoas do banco.")
+//    @ApiResponses(
+//            value = {
+//                    @ApiResponse(responseCode = "200", description = "Retorna uma lista de pessoas."),
+//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
+//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
+//            }
+//    )
+//    @GetMapping // GET localhost:8080/pessoa
+//    public ResponseEntity<List<ClienteDTO>> list();
 
     @Operation(summary = "Listar pelo nome.", description = "Lista a pessoa com o respectivo nome passado.")
     @ApiResponses(
@@ -35,7 +34,7 @@ public interface PessoaControllerDoc {
             }
     )
     @GetMapping("/byname") // GET localhost:8080/pessoa/byname?nome=Rafa
-    public ResponseEntity<List<PessoaDTO>> listByName(@RequestParam(value = "nome") String nome);
+    public ResponseEntity<List<ClienteDTO>> listByName(@RequestParam(value = "nome") String nome);
 
     @Operation(summary = "Cria uma pessoa.", description = "Cria uma nova pessoa.")
     @ApiResponses(
@@ -46,7 +45,7 @@ public interface PessoaControllerDoc {
             }
     )
     @PostMapping // POST localhost:8080/pessoa
-    public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaCreateDTO pessoa) throws Exception;
+    public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteCreateDTO pessoa) throws Exception;
 
     @Operation(summary = "Atualizar uma pessoa.", description = "Atualiza uma pessoa pelo id dela.")
     @ApiResponses(
@@ -57,7 +56,7 @@ public interface PessoaControllerDoc {
             }
     )
     @PutMapping("/{idPessoa}") // PUT localhost:8080/pessoa/1000
-    public ResponseEntity<PessoaDTO> update(@PathVariable("idPessoa") Integer id, @Valid @RequestBody PessoaCreateDTO pessoaAtualizar) throws Exception;
+    public ResponseEntity<ClienteDTO> update(@PathVariable("idPessoa") Integer id, @Valid @RequestBody ClienteCreateDTO pessoaAtualizar) throws Exception;
 
     @Operation(summary = "Deletar uma pessoa.", description = "Deleta uma pessoa pelo id dela.")
     @ApiResponses(

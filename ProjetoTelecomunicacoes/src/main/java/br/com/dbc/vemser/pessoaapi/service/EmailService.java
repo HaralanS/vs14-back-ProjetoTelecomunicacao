@@ -1,7 +1,6 @@
 package br.com.dbc.vemser.pessoaapi.service;
 
-import br.com.dbc.vemser.pessoaapi.dto.PessoaCreateDTO;
-import br.com.dbc.vemser.pessoaapi.entity.Pessoa;
+import br.com.dbc.vemser.pessoaapi.entity.Cliente;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class EmailService {
 
     //@Value("${mail.pessoa.criar}")
     private String pessoaCriada;
-    private Pessoa pessoa;
+    private Cliente cliente;
     private String templateString;
 
     @Value("${spring.mail.username}")
@@ -65,8 +64,8 @@ public class EmailService {
         emailSender.send(message);
     }
 
-    public void sendEmail(Pessoa pessoaEntity, String templateString) {
-        this.pessoa = pessoaEntity;
+    public void sendEmail(Cliente clienteEntity, String templateString) {
+        this.cliente = clienteEntity;
         this.templateString = templateString;
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
@@ -98,11 +97,11 @@ public class EmailService {
 
     public String geContentFromTemplate() throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
-        dados.put("nome", pessoa.getNome());
-        dados.put("id", pessoa.getIdPessoa());
-        dados.put("email", pessoa.getEmail());
-        dados.put("datanascimento", pessoa.getDataNascimento());
-        dados.put("cpf", pessoa.getCpf());
+        dados.put("nome", cliente.getNome());
+        dados.put("id", cliente.getIdPessoa());
+        dados.put("email", cliente.getEmail());
+        dados.put("datanascimento", cliente.getDataNascimento());
+        dados.put("cpf", cliente.getCpf());
 
         String html = "";
 
