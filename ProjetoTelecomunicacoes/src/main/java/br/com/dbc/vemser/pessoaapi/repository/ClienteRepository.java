@@ -17,8 +17,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Repository
 public class ClienteRepository {
-    private static List<Cliente> clientes = new ArrayList<>();
+    List<Cliente> clientes = new ArrayList<>();
     List<Cliente> clientePorNome = new ArrayList<>();
+    List<Cliente> clienteCreateResponse = new ArrayList<>();
+    List<Cliente> clienteUpdateResponse = new ArrayList<>();
+    List<Cliente> clienteDeleteResponse = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
     private final FaturaRepository faturaRepository;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //18/10/2020
@@ -109,8 +112,7 @@ public class ClienteRepository {
     }
 
     public List<Cliente> createCliente(Cliente cliente) throws SQLException {
-        List<Cliente> clientes = new ArrayList<>();
-        String sql = "INSERT INTO tele_comunicacoes.TB_CLIENTE (nome, dt_nascimento, cpf, email, numero_telefone, tipo_plano, status) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tele_comunicacoes.TB_CLIENTE (nome, dt_nascimento, cpf, email, numero_telefone, tipo_plano, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         Connection connection = ConexaoBancoDeDados.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, cliente.getNome());
@@ -120,28 +122,12 @@ public class ClienteRepository {
         preparedStatement.setLong(5, cliente.getNumeroTelefone());
         preparedStatement.setString(6, cliente.getTipoDePlano().toString());
         preparedStatement.setBoolean(7, true);
-
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-            while (resultSet.next()) {
-                Cliente cliente2 = new Cliente();
-                cliente2.setIdPessoa(resultSet.getInt("id_cliente"));
-                cliente2.setNome(resultSet.getString("nome"));
-                cliente2.setDataNascimento(resultSet.getDate("dt_nascimento").toLocalDate());
-                cliente2.setCpf(resultSet.getString("cpf"));
-                cliente2.setEmail(resultSet.getString("email"));
-                cliente2.setNumeroTelefone(resultSet.getLong("numero_telefone"));
-                cliente2.setTipoDePlano(TipoDePlano.valueOf(resultSet.getString("tipo_plano")));
-                cliente2.setStatus(resultSet.getBoolean("status"));
-                clientes.add(cliente2);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return clientes;
+        preparedStatement.execute();
+        clienteCreateResponse.add(cliente);
+        return clienteCreateResponse;
     }
 
+    // haralam que entende melhor esse método
     public Cliente create(Cliente cliente) {
         log.debug("Entrando na PessoaRepository");
         cliente.setIdPessoa(COUNTER.incrementAndGet());
@@ -167,17 +153,39 @@ public class ClienteRepository {
         return cliente;
     }
 
-    public Cliente update(Integer id, Cliente clienteAtualizar, Cliente clienteRecuperada) {
+    public List<Cliente> update(Integer id, Cliente cliente) throws SQLException {
         log.debug("Entrando na PessoaRepository");
-        clienteRecuperada.setCpf(clienteAtualizar.getCpf());
-        clienteRecuperada.setNome(clienteAtualizar.getNome());
-        clienteRecuperada.setDataNascimento(clienteAtualizar.getDataNascimento());
-        return clienteRecuperada;
+        String sql = "UPDATE tele_comunicacoes.TB_CLIENTE SET nome = ?, cpf = ?, email = ?, numero_telefone = ? WHERE id_cliente = ?";
+        Connection connection = ConexaoBancoDeDados.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        cliente.setIdPessoa(id);
+
+        preparedStatement.setString(1, cliente.getNome());
+        preparedStatement.setString(2, cliente.getCpf());
+        preparedStatement.setString(3, cliente.getEmail());
+        preparedStatement.setLong(4, cliente.getNumeroTelefone());
+        preparedStatement.setInt(5, id);
+
+        preparedStatement.execute();
+        clienteUpdateResponse.add(cliente);
+        return clienteUpdateResponse;
     }
 
-    public void delete(Cliente cliente) {
+    public void delete(Cliente cliente, Integer id) throws SQLException {
         log.debug("Entrando na PessoaRepository");
         cliente.setStatus(false);
+
+        String sql = "DELETE FROM tele_comunicacoes.TB_CLIENTE WHERE id_cliente = ?";
+        Connection connection = ConexaoBancoDeDados.getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setInt(1, id);
+
+        preparedStatement.execute();
+        clienteDeleteResponse.add(cliente);
+
     }
 
 }

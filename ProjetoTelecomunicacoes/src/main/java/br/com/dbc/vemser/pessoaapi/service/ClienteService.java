@@ -73,8 +73,7 @@ public class ClienteService {
     public ClienteDTO update(Integer id, ClienteCreateDTO dto) throws Exception {
         log.debug("Entrando na PessoaService");
         Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
-        Cliente clienteRecuperada = getPessoa(id);
-        clienteRepository.update(id, clienteEntity, clienteRecuperada);
+        clienteRepository.update(id, clienteEntity);
         ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
         return clienteDTO;
     }
@@ -82,11 +81,11 @@ public class ClienteService {
     public void delete(Integer id) throws Exception {
         log.debug("Entrando na PessoaService");
         Cliente clienteRecuperada = getPessoa(id);
-        clienteRepository.delete(clienteRecuperada);
+        clienteRepository.delete(clienteRecuperada, id);
     }
 
     public Cliente getPessoa(Integer id) throws Exception {
-        Cliente clienteRecuperada = clienteRepository.list().stream()
+        Cliente clienteRecuperada = clienteRepository.getAllClientes().stream()
                 .filter(pessoa -> pessoa.getIdPessoa().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new RegraDeNegocioException("Pessoa não encontrada!"));
