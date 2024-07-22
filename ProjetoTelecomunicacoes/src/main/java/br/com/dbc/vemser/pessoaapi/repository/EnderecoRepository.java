@@ -42,7 +42,9 @@ public class EnderecoRepository {
     }
 
     public Endereco create(Integer idPessoa, Endereco endereco) {
+
         String query = "INSERT INTO tele_comunicacoes.endereco (id_pessoa, tipo, logradouro, numero, complemento, cep, cidade, estado, pais) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id_endereco";
+
         try (Connection connection = ConexaoBancoDeDados.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(query)) {
 
@@ -61,6 +63,9 @@ public class EnderecoRepository {
             } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        Endereco endero = getEnderecoByIdPessoa(idPessoa);
+
         return endereco;
     }
 
@@ -86,33 +91,40 @@ public class EnderecoRepository {
         return enderecoAtualizar;
     }
 
-    public List<Endereco> listByIdPessoa(Integer idPessoa) {
-        List<Endereco> enderecos = new ArrayList<>();
-        String query = "SELECT * FROM tele_comunicacoes.endereco WHERE id_pessoa = ?";
+    public Endereco getEnderecoByIdPessoa(Integer idPessoa) {
 
-        try (Connection connection = ConexaoBancoDeDados.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(query)) {
+        Connection conn = null;
+        Endereco endereco = new Endereco();
 
-            pstmt.setInt(1, idPessoa);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    Endereco endereco = new Endereco();
-                    endereco.setIdEndereco(rs.getInt("id_endereco"));
-                    endereco.setIdPessoa(rs.getInt("id_pessoa"));
-                    endereco.setTipo(TipoEndereco.valueOf(rs.getString("tipo")));
-                    endereco.setLogradouro(rs.getString("logradouro"));
-                    endereco.setNumero(rs.getInt("numero"));
-                    endereco.setComplemento(rs.getString("complemento"));
-                    endereco.setCep(rs.getString("cep"));
-                    endereco.setCidade(rs.getString("cidade"));
-                    endereco.setEstado(rs.getString("estado"));
-                    endereco.setPais(rs.getString("pais"));
-                    enderecos.add(endereco);
-                }
+        try {
+
+            conn = ConexaoBancoDeDados.getConnection();
+
+            String query = "SELECT * FROM tele_comunicacoes.endereco WHERE id_pessoa = ?";
+
+            PreparedStatement pstmt = conn.prepareStatement(query);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                endereco.setIdEndereco(rs.getInt("id_endereco"));
+                endereco.setIdPessoa(rs.getInt("id_pessoa"));
+                endereco.setTipo(TipoEndereco.valueOf(rs.getString("tipo")));
+                endereco.setLogradouro(rs.getString("logradouro"));
+                endereco.setNumero(rs.getInt("numero"));
+                endereco.setComplemento(rs.getString("complemento"));
+                endereco.setCep(rs.getString("cep"));
+                endereco.setCidade(rs.getString("cidade"));
+                endereco.setEstado(rs.getString("estado"));
+                endereco.setPais(rs.getString("pais"));
             }
+
         } catch (SQLException e) {
-            log.error("Erro ao listar endereços por id_pessoa", e);
+            throw new RuntimeException(e);
         }
-        return enderecos;
+
+        return endereco;
+
     }
+
 }
