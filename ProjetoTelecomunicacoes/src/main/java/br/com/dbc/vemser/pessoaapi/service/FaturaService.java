@@ -5,6 +5,7 @@ import br.com.dbc.vemser.pessoaapi.dto.FaturaCreateDTO;
 import br.com.dbc.vemser.pessoaapi.dto.FaturaDTO;
 import br.com.dbc.vemser.pessoaapi.entity.Fatura;
 import br.com.dbc.vemser.pessoaapi.exceptions.RegraDeNegocioException;
+import br.com.dbc.vemser.pessoaapi.repository.ClienteRepository;
 import br.com.dbc.vemser.pessoaapi.repository.FaturaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +21,12 @@ public class FaturaService {
 
     private final FaturaRepository faturaRepository;
     private final ObjectMapper objectMapper;
+    private final ClienteRepository clienteRepository;
 
-    public FaturaService(FaturaRepository faturaRepository, ObjectMapper objectMapper) {
+    public FaturaService(FaturaRepository faturaRepository, ObjectMapper objectMapper, ClienteRepository clienteRepository) {
         this.faturaRepository = faturaRepository;
         this.objectMapper = objectMapper;
+        this.clienteRepository = clienteRepository;
     }
 
     public List<FaturaDTO> list(){
@@ -33,16 +36,11 @@ public class FaturaService {
         return list;
     }
 
-    public List<FaturaDTO> listByClient(Integer idCliente){
-        List<Fatura> list = faturaRepository.listByClient(idCliente).stream()
-                .filter(fatura -> fatura.getIdCliente().equals(idCliente))
-                .collect(Collectors.toList());
-        List<FaturaDTO> faturasDto = list.stream()
+    public List<FaturaDTO> listByClient(Integer idCliente) throws Exception {
+        getIdCliente(idCliente);
+        return  faturaRepository.listByClient(idCliente).stream()
                 .map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class))
                 .collect(Collectors.toList());
-
-
-        return faturasDto;
     }
 
 
@@ -78,6 +76,11 @@ public class FaturaService {
         faturaRepository.delete(fatura);
     }
 
+    private Integer getIdCliente(Integer id) throws Exception {
+        return clienteRepository.getAllClientes().stream()
+                .filter(cliente -> cliente.getIdPessoa().equals(id))
+                .findFirst().orElseThrow(() -> new RuntimeException("Cliente não encontrado!")).getIdPessoa();
 
+    }
 
 }
