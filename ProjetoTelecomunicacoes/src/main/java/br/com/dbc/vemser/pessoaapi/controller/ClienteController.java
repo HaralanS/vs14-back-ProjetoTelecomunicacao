@@ -56,7 +56,7 @@ public class ClienteController implements ClienteControllerDoc {
     @PostMapping // POST localhost:8080/pessoa
     public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteCreateDTO pessoa) throws Exception {
         log.debug("Criando uma pessoa!");
-        ClienteDTO clienteCriado = clienteService.create(pessoa);
+        ClienteDTO clienteCriado = clienteService.createCliente(pessoa);
         log.debug("Criou com sucesso!");
         return new ResponseEntity<>(clienteCriado, HttpStatus.OK);
     }
