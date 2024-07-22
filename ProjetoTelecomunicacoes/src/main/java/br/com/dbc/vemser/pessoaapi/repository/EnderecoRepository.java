@@ -43,7 +43,7 @@ public class EnderecoRepository {
 
     public Endereco create(Integer idPessoa, Endereco endereco) {
 
-        String query = "INSERT INTO tele_comunicacoes.endereco (id_pessoa, tipo, logradouro, numero, complemento, cep, cidade, estado, pais) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id_endereco";
+        String query = "INSERT INTO tele_comunicacoes.endereco (id_pessoa, tipo, logradouro, numero, complemento, cep, cidade, estado, pais) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexaoBancoDeDados.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -62,6 +62,7 @@ public class EnderecoRepository {
 
             } catch (SQLException e) {
             throw new RuntimeException(e);
+
         }
 
         Endereco endero = getEnderecoByIdPessoa(idPessoa);
@@ -103,6 +104,8 @@ public class EnderecoRepository {
             String query = "SELECT * FROM tele_comunicacoes.endereco WHERE id_pessoa = ?";
 
             PreparedStatement pstmt = conn.prepareStatement(query);
+
+            pstmt.setInt(1, idPessoa);
 
             ResultSet rs = pstmt.executeQuery();
 

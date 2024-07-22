@@ -50,14 +50,10 @@ public class EnderecoService {
 //        return list;
 //    }
 
-    public List<EnderecoDTO> listByIdPessoa(Integer id) {
+    public EnderecoDTO listByIdPessoa(Integer id) {
         log.debug("Entrando na EnderecoService");
-        List<EnderecoDTO> list = enderecoRepository.list()
-                .stream()
-                .filter(enderecoDTO -> enderecoDTO.getIdPessoa().equals(id))
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
-                .collect(Collectors.toList());
-        return list;
+        EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoRepository.getEnderecoByIdPessoa(id), EnderecoDTO.class);
+        return enderecoDTO;
     }
 
     public EnderecoDTO create(Integer id, EnderecoCreateDTO dto) throws Exception {

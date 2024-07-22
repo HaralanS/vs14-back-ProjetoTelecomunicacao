@@ -26,11 +26,11 @@ public class EnderecoController {
 
 
     @GetMapping("/pessoa/{idPessoa}") // GET http://localhost:8080/endereco/pessoa/{idPessoa}
-    public ResponseEntity<List<EnderecoDTO>> listByIdPessoa(@PathVariable("idPessoa") Integer id) {
-        log.debug("Listando endereços com idPessoa!");
-        List<EnderecoDTO> list = enderecoService.listByIdPessoa(id);
-        log.debug("Listagem concluida com sucesso!");
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<EnderecoDTO> listByIdPessoa(@PathVariable("idPessoa") Integer id) {
+        log.debug("Retornando endereço com idPessoa!");
+        EnderecoDTO enderecoDTO = enderecoService.listByIdPessoa(id);
+        log.debug("Retorno concluido com sucesso!");
+        return new ResponseEntity<>(enderecoDTO, HttpStatus.OK);
     }
 
     @PostMapping("/{idPessoa}") // POST http://localhost:8080/endereco/{idPessoa}
