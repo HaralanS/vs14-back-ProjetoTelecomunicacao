@@ -50,24 +50,19 @@ public class EnderecoService {
 //        return list;
 //    }
 
-    public List<EnderecoDTO> listByIdPessoa(Integer id) {
+    public EnderecoDTO listByIdPessoa(Integer id) {
         log.debug("Entrando na EnderecoService");
-        List<EnderecoDTO> list = enderecoRepository.list()
-                .stream()
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
-                .filter(enderecoDTO -> enderecoDTO.getIdPessoa().equals(id))
-                .collect(Collectors.toList());
-        return list;
+        EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoRepository.getEnderecoByIdPessoa(id), EnderecoDTO.class);
+        return enderecoDTO;
     }
 
     public EnderecoDTO create(Integer id, EnderecoCreateDTO dto) throws Exception {
         log.debug("Entrando na EnderecoService");
-        getEndereco(id);
         Endereco enderecoEntity = objectMapper.convertValue(dto, Endereco.class);
         enderecoRepository.create(id, enderecoEntity);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
-        Cliente clienteEntity = clienteService.getPessoa(id);
-        emailService.sendEmail(clienteEntity, "ce");
+//        Cliente clienteEntity = clienteService.getPessoa(id);
+//        emailService.sendEmail(clienteEntity, "ce");
         return enderecoDTO;
     }
 
@@ -78,18 +73,18 @@ public class EnderecoService {
         Endereco enderecoRecuperado = getEndereco(id);
         enderecoRepository.update(id, enderecoEntity, enderecoRecuperado);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
-        Cliente clienteEntity = clienteService.getPessoa(enderecoDTO.getIdPessoa());
-        emailService.sendEmail(clienteEntity, "ue");
+//        Cliente clienteEntity = clienteService.getPessoa(enderecoDTO.getIdPessoa());
+//        emailService.sendEmail(clienteEntity, "ue");
         return enderecoDTO;
     }
 
-    public void delete(Integer id) throws Exception {
-        log.debug("Entrando na EnderecoService");
-        Endereco enderecoRecuperado = getEndereco(id);
-        enderecoRepository.delete(enderecoRecuperado);
-        Cliente clienteEntity = clienteService.getPessoa(enderecoRecuperado.getIdPessoa());
-        emailService.sendEmail(clienteEntity, "de");
-    }
+//    public void delete(Integer id) throws Exception {
+//        log.debug("Entrando na EnderecoService");
+//        Endereco enderecoRecuperado = getEndereco(id);
+//        enderecoRepository.delete(enderecoRecuperado);
+//        Cliente clienteEntity = clienteService.getPessoa(enderecoRecuperado.getIdPessoa());
+//        emailService.sendEmail(clienteEntity, "de");
+//    }
 
     private Endereco getEndereco(Integer id) throws Exception {
         Endereco enderecoRecuperado = enderecoRepository.list().stream()
