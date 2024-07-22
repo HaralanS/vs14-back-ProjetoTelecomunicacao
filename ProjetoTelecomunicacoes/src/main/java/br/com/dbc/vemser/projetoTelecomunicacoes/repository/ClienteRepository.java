@@ -192,7 +192,6 @@ public class ClienteRepository {
             faturaRepository.create(fatura);
         }
 
-
         return cliente;
     }
 

@@ -46,7 +46,6 @@ public class FaturaRepository {
                 fatura.setIdFatura(Integer.valueOf(rs.getInt("id_fatura")));
                 fatura.setIdCliente(Integer.valueOf(rs.getInt("id_cliente")));
                 fatura.setDataVencimento(rs.getDate("dt_vencimento").toLocalDate());
-                fatura.setDataBaixa(rs.getDate("dt_baixa").toLocalDate());
                 fatura.setParcelaDoPlano(rs.getDouble("parcela"));
                 fatura.setValorPago(rs.getDouble("valor_pago"));
                 fatura.setNumeroFatura(Integer.valueOf(rs.getInt("numero_fatura")));
