@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.List;
 
 @Slf4j
@@ -41,12 +42,16 @@ public class ClienteController implements ClienteControllerDoc {
     }
 
     @GetMapping("/byname") // GET localhost:8080/pessoa/byname?nome=Rafa
-    public ResponseEntity<List<ClienteDTO>> listByName(@RequestParam(value = "nome") String nome) {
+    public ResponseEntity<List<ClienteDTO>> listByName(@RequestParam(value = "nome") String nome) throws SQLException {
         List<ClienteDTO> listaCriada = clienteService.listByName(nome);
         return new ResponseEntity<>(listaCriada, HttpStatus.OK);
     }
 
-    // listById
+    @GetMapping("/{idCliente}") // GET localhost:8080/pessoa/byname?nome=Rafa
+    public ResponseEntity<List<ClienteDTO>> listById(@PathVariable("idCliente") Integer id) throws SQLException {
+        List<ClienteDTO> listaCriada = clienteService.listById(id);
+        return new ResponseEntity<>(listaCriada, HttpStatus.OK);
+    }
 
     @PostMapping // POST localhost:8080/pessoa
     public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteCreateDTO pessoa) throws Exception {

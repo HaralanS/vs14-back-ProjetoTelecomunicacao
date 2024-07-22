@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,21 +31,35 @@ public class ClienteService {
     public List<ClienteDTO> list(){
         List<ClienteDTO> list = clienteRepository.getAllClientes()
                 .stream()
-                .map(pessoa -> objectMapper.convertValue(pessoa, ClienteDTO.class))
+                .map(cliente -> objectMapper.convertValue(cliente, ClienteDTO.class))
                 .collect(Collectors.toList());
         return list;
     }
 
-    public List<ClienteDTO> listByName(String nome) {
-        List<ClienteDTO> list = clienteRepository.list()
+    public List<ClienteDTO> listByName(String nome) throws SQLException {
+        List<ClienteDTO> list = clienteRepository.getAClientByName(nome)
                 .stream()
-                .map(pessoa -> objectMapper.convertValue(pessoa, ClienteDTO.class))
-                .filter(clienteDTO -> clienteDTO.getNome().equalsIgnoreCase(nome))
+                .map(cliente -> objectMapper.convertValue(cliente, ClienteDTO.class))
                 .collect(Collectors.toList());
         return list;
     }
 
-    // findById
+    public List<ClienteDTO> listById(Integer id) throws SQLException {
+        List<ClienteDTO> list = clienteRepository.getAClientById(id)
+                .stream()
+                .map(cliente -> objectMapper.convertValue(cliente, ClienteDTO.class))
+                .collect(Collectors.toList());
+        return list;
+    }
+
+    public ClienteDTO createCliente(ClienteCreateDTO dto) throws Exception {
+        log.debug("Entrando na ClienteService");
+        Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
+        clienteRepository.createCliente(clienteEntity);
+        ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
+        emailService.sendEmail(clienteEntity, "cp");
+        return clienteDTO;
+    }
 
     public ClienteDTO create(ClienteCreateDTO dto) throws Exception {
         log.debug("Entrando na PessoaService");

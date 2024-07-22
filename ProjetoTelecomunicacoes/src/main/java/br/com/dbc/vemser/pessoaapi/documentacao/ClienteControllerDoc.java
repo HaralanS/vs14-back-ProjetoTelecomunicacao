@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -34,7 +35,7 @@ public interface ClienteControllerDoc {
             }
     )
     @GetMapping("/byname") // GET localhost:8080/pessoa/byname?nome=Rafa
-    public ResponseEntity<List<ClienteDTO>> listByName(@RequestParam(value = "nome") String nome);
+    public ResponseEntity<List<ClienteDTO>> listByName(@RequestParam(value = "nome") String nome) throws SQLException;
 
     @Operation(summary = "Cria uma pessoa.", description = "Cria uma nova pessoa.")
     @ApiResponses(

@@ -15,9 +15,9 @@ public class Cliente {
     private LocalDate dataNascimento;
     private String cpf;
     private String email;
-    private Integer numeroTelefone;
+    private Long numeroTelefone;
     private TipoDePlano tipoDePlano;
-    private boolean status;
+    private Boolean status;
 
     public Cliente() {
 
