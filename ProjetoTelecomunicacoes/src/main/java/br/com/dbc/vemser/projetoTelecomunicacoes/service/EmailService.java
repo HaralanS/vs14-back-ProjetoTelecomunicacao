@@ -73,7 +73,7 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setFrom(de);
-            mimeMessageHelper.setTo(para);
+            mimeMessageHelper.setTo(clienteEntity.getEmail());
 
             switch (templateString) {
                 case "cp":
@@ -97,11 +97,11 @@ public class EmailService {
 
     public String geContentFromTemplate() throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
-//        dados.put("nome", cliente.getNome());
+        dados.put("nome", cliente.getNome());
 //        dados.put("id", cliente.getIdPessoa());
-//        dados.put("email", cliente.getEmail());
+        dados.put("email", cliente.getEmail());
 //        dados.put("datanascimento", cliente.getDataNascimento());
-//        dados.put("cpf", cliente.getCpf());
+        dados.put("cpf", cliente.getCpf());
 
         String html = "";
 

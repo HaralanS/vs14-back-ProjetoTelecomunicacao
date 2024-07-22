@@ -17,14 +17,13 @@
 
                         <br/>Bem-vindo(a) ao Suporte Telecom, !
                         <br/>
-                        <br/>Olá, !
+                        <br/>Olá, ${nome}!
                         <br/>
                         <br/>É com grande satisfação que damos as boas-vindas ao Suporte Telecom. Estamos aqui para auxiliar você em todas as suas necessidades relacionadas à criação de endereços e muito mais. Abaixo estão os seus dados cadastrados:
                         <br/>
-                        <br/>Nome:
-                        <br/>Data de nascimento:
-                        <br/>CPF:
-                        <br/>Email:
+                        <br/>Nome: ${nome}
+                        <br/>CPF: ${cpf}
+                        <br/>Email: ${email}
                         <br/>
                         <br/>Estamos comprometidos em oferecer o melhor suporte possível e garantir que você tenha uma experiência tranquila e satisfatória com nossos serviços. Se precisar de qualquer assistência, não hesite em nos contatar.
                         <br/>
