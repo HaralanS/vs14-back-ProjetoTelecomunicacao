@@ -34,7 +34,7 @@ public class ClienteCreateDTO {
 
     @Schema(description = "Numero de telefone com ddd", example = "47999556687")
     @NotNull
-    private Integer numeroTelefone;
+    private Long numeroTelefone;
 
     @Schema(description = "Status do cliente", example = "true")
     @NotNull
