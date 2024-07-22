@@ -52,10 +52,12 @@ public class FaturaService {
     }
 
     public FaturaDTO create(FaturaCreateDTO faturaCreateDTO) throws Exception {
+
         Fatura fatura = objectMapper.convertValue(faturaCreateDTO, Fatura.class);
         faturaRepository.create(fatura);
         FaturaDTO faturaDTO = objectMapper.convertValue(fatura, FaturaDTO.class);
         return faturaDTO;
+
     }
 
 //    public FaturaDTO findByIdDTO(Integer idFatura) throws Exception {

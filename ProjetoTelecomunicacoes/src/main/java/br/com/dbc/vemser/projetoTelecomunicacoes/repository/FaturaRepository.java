@@ -43,13 +43,13 @@ public class FaturaRepository {
             while (rs.next()) {
                 Fatura fatura = new Fatura();
 
-                fatura.setIdFatura(rs.getInt("id_fatura"));
-                fatura.setIdCliente(rs.getInt("id_cliente"));
+                fatura.setIdFatura(Integer.valueOf(rs.getInt("id_fatura")));
+                fatura.setIdCliente(Integer.valueOf(rs.getInt("id_cliente")));
                 fatura.setDataVencimento(rs.getDate("dt_vencimento").toLocalDate());
                 fatura.setDataBaixa(rs.getDate("dt_baixa").toLocalDate());
                 fatura.setParcelaDoPlano(rs.getDouble("parcela"));
                 fatura.setValorPago(rs.getDouble("valor_pago"));
-                fatura.setNumeroFatura(rs.getInt("numero_fatura"));
+                fatura.setNumeroFatura(Integer.valueOf(rs.getInt("numero_fatura")));
 
                 faturasEncontradas.add(fatura);
             }
@@ -83,8 +83,30 @@ public class FaturaRepository {
      */
 
     public Fatura create(Fatura fatura) {
-        fatura.setIdFatura(COUNTERFATURA.incrementAndGet());
-        listaFaturas.add(fatura);
+
+        Connection conn = null;
+
+        try {
+            conn = ConexaoBancoDeDados.getConnection();
+
+            String sql = "INSERT INTO tele_comunicacoes.tb_fatura" +
+                         "(id_cliente, dt_vencimento, parcela, valor_pago, numero_fatura)" +
+                         "VALUES (?, ?, ?, ?, ?) ";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
+
+            stmt.setInt(1, fatura.getIdCliente());
+            stmt.setDate(2, Date.valueOf(fatura.getDataVencimento()));
+            stmt.setDouble(3, fatura.getParcelaDoPlano());
+            stmt.setDouble(4, fatura.getValorPago());
+            stmt.setInt(5, fatura.getNumeroFatura());
+
+            stmt.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return fatura;
     }
 

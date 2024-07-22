@@ -55,7 +55,7 @@ public class ClienteService {
     public ClienteDTO createCliente(ClienteCreateDTO dto) throws Exception {
         log.debug("Entrando na ClienteService");
         Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
-        clienteRepository.createCliente(clienteEntity);
+        clienteRepository.create(clienteEntity);
         ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
         emailService.sendEmail(clienteEntity, "cp");
         return clienteDTO;

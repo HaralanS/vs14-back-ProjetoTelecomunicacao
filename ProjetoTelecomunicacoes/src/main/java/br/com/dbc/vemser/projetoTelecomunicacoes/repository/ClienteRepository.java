@@ -1,8 +1,11 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.repository;
 
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaCreateDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Cliente;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.*;
+import br.com.dbc.vemser.projetoTelecomunicacoes.service.FaturaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -42,14 +45,14 @@ public class ClienteRepository {
 
             while (resultSet.next()) {
                 Cliente cliente = new Cliente();
-                cliente.setIdPessoa(resultSet.getInt("id_cliente"));
+                cliente.setIdPessoa(Integer.valueOf(resultSet.getInt("id_cliente")));
                 cliente.setNome(resultSet.getString("nome"));
                 cliente.setDataNascimento(resultSet.getDate("dt_nascimento").toLocalDate());
                 cliente.setCpf(resultSet.getString("cpf"));
                 cliente.setEmail(resultSet.getString("email"));
-                cliente.setNumeroTelefone(resultSet.getLong("numero_telefone"));
+                cliente.setNumeroTelefone(Long.valueOf(resultSet.getLong("numero_telefone")));
                 cliente.setTipoDePlano(TipoDePlano.valueOf(resultSet.getString("tipo_plano")));
-                cliente.setStatus(resultSet.getBoolean("status"));
+                cliente.setStatus(Boolean.valueOf(resultSet.getBoolean("status")));
                 clientes.add(cliente);
             }
         } catch (SQLException e) {
@@ -70,14 +73,14 @@ public class ClienteRepository {
 
             while (resultSet.next()) {
                 Cliente cliente = new Cliente();
-                cliente.setIdPessoa(resultSet.getInt("id_cliente"));
+                cliente.setIdPessoa(Integer.valueOf(resultSet.getInt("id_cliente")));
                 cliente.setNome(resultSet.getString("nome"));
                 cliente.setDataNascimento(resultSet.getDate("dt_nascimento").toLocalDate());
                 cliente.setCpf(resultSet.getString("cpf"));
                 cliente.setEmail(resultSet.getString("email"));
-                cliente.setNumeroTelefone(resultSet.getLong("numero_telefone"));
+                cliente.setNumeroTelefone(Long.valueOf(resultSet.getLong("numero_telefone")));
                 cliente.setTipoDePlano(TipoDePlano.valueOf(resultSet.getString("tipo_plano")));
-                cliente.setStatus(resultSet.getBoolean("status"));
+                cliente.setStatus(Boolean.valueOf(resultSet.getBoolean("status")));
                 clientePorNome.add(cliente);
             }
         } catch (SQLException e) {
@@ -98,14 +101,14 @@ public class ClienteRepository {
 
             while (resultSet.next()) {
                 Cliente cliente = new Cliente();
-                cliente.setIdPessoa(resultSet.getInt("id_cliente"));
+                cliente.setIdPessoa(Integer.valueOf(resultSet.getInt("id_cliente")));
                 cliente.setNome(resultSet.getString("nome"));
                 cliente.setDataNascimento(resultSet.getDate("dt_nascimento").toLocalDate());
                 cliente.setCpf(resultSet.getString("cpf"));
                 cliente.setEmail(resultSet.getString("email"));
-                cliente.setNumeroTelefone(resultSet.getLong("numero_telefone"));
+                cliente.setNumeroTelefone(Long.valueOf(resultSet.getLong("numero_telefone")));
                 cliente.setTipoDePlano(TipoDePlano.valueOf(resultSet.getString("tipo_plano")));
-                cliente.setStatus(resultSet.getBoolean("status"));
+                cliente.setStatus(Boolean.valueOf(resultSet.getBoolean("status")));
                 clientes.add(cliente);
             }
         } catch (SQLException e) {
@@ -115,27 +118,60 @@ public class ClienteRepository {
         return clientes;
     }
 
-    public List<Cliente> createCliente(Cliente cliente) throws SQLException {
-        clienteCreateResponse = new ArrayList<>();
-        String sql = "INSERT INTO tele_comunicacoes.TB_CLIENTE (nome, dt_nascimento, cpf, email, numero_telefone, tipo_plano, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        Connection connection = ConexaoBancoDeDados.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, cliente.getNome());
-        preparedStatement.setDate(2, Date.valueOf(cliente.getDataNascimento()));
-        preparedStatement.setString(3, cliente.getCpf());
-        preparedStatement.setString(4, cliente.getEmail());
-        preparedStatement.setLong(5, cliente.getNumeroTelefone());
-        preparedStatement.setString(6, cliente.getTipoDePlano().toString());
-        preparedStatement.setBoolean(7, true);
-        preparedStatement.execute();
-        clienteCreateResponse.add(cliente);
-        return clienteCreateResponse;
-    }
-
     // haralam que entende melhor esse método
-    public Cliente create(Cliente cliente) {
+    public Cliente create(Cliente cliente) throws Exception {
+
         log.debug("Entrando na PessoaRepository");
-        cliente.setIdPessoa(COUNTER.incrementAndGet());
+        Connection conn = null;
+        String sql;
+        Integer idCliente = null;
+
+        String cpf = cliente.getCpf();
+
+        try {
+
+            conn = ConexaoBancoDeDados.getConnection();
+
+            sql = "INSERT INTO tele_comunicacoes.TB_CLIENTE " +
+                    "(nome, dt_nascimento, cpf, email, numero_telefone, tipo_plano, status)" +
+                    " VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+            preparedStatement.setString(1, cliente.getNome());
+            preparedStatement.setDate(2, Date.valueOf(cliente.getDataNascimento()));
+            preparedStatement.setString(3, cliente.getCpf());
+            preparedStatement.setString(4, cliente.getEmail());
+            preparedStatement.setLong(5, cliente.getNumeroTelefone());
+            preparedStatement.setString(6, cliente.getTipoDePlano().toString());
+            preparedStatement.setBoolean(7, true);
+
+            preparedStatement.executeUpdate();
+
+
+            // RETORNANDO ID GERADO PARA O CLIENTE E PASSAR PARA A FATURA
+            sql = "SELECT id_cliente FROM tele_comunicacoes.tb_cliente WHERE cpf = ?";
+            preparedStatement = conn.prepareStatement(sql);
+
+            System.out.println();
+
+            preparedStatement.setString(1, cpf);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            log.debug("Result set funcionando!");
+
+
+            while (resultSet.next()) {
+                idCliente = (Integer) resultSet.getInt("id_cliente");
+            }
+
+            cliente.setIdPessoa(idCliente);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
         Plano plano = null;
         switch (cliente.getTipoDePlano()){
             case BASICO:
@@ -151,10 +187,12 @@ public class ClienteRepository {
         LocalDate dataAtual = LocalDate.now();
         for (int i = 0; i < 12; i++) {
             LocalDate dataVencimento = dataAtual.plusMonths((i + 1));
-            Fatura fatura = new Fatura(faturaRepository.getIdFatura(), cliente.getIdPessoa(), dataVencimento, null, plano.getValor(), 0, (i+1));
+            Fatura fatura = new Fatura(idCliente, dataVencimento, null, plano.getValor(), 0, (Integer) (i+1));
+            log.debug("Criando fatura após criar cliente");
             faturaRepository.create(fatura);
         }
-        //listaClientes.add(cliente);
+
+
         return cliente;
     }
 
