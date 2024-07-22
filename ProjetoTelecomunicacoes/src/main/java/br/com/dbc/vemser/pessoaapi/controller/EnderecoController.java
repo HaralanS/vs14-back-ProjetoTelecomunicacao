@@ -24,21 +24,6 @@ public class EnderecoController {
         this.enderecoService = enderecoService;
     }
 
-//    @GetMapping // GET http://localhost:8080/endereco
-//    public ResponseEntity<List<EnderecoDTO>> list() {
-//        log.debug("Listando endereços!");
-//        List<EnderecoDTO> list = enderecoService.list();
-//        log.debug("Listagem concluida com sucesso!");
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
-
-//    @GetMapping("/{idEndereco}") // GET http://localhost:8080/endereco/{idPessoa}
-//    public ResponseEntity<List<EnderecoDTO>> listById(@PathVariable("idEndereco") Integer id) {
-//        log.debug("Listando endereços com idEndereço!");
-//        List<EnderecoDTO> list = enderecoService.listById(id);
-//        log.debug("Listagem concluida com sucesso!");
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
 
     @GetMapping("/pessoa/{idPessoa}") // GET http://localhost:8080/endereco/pessoa/{idPessoa}
     public ResponseEntity<List<EnderecoDTO>> listByIdPessoa(@PathVariable("idPessoa") Integer id) {
@@ -63,12 +48,5 @@ public class EnderecoController {
         log.debug("Atualizado com sucesso!");
         return new ResponseEntity<>(enderecoAtualizado, HttpStatus.OK);
     }
-
-//    @DeleteMapping("/{idPessoa}") // DELETE http://localhost:8080/endereco/{idPessoa}
-//    public ResponseEntity<Void> delete(@PathVariable("idEndereco") Integer id) throws Exception {
-//        log.debug("Deletando um endereço!");
-//        enderecoService.delete(id);
-//        log.debug("Deletou com sucesso!");
-//        return ResponseEntity.ok().build();
-//    }
 }
+
