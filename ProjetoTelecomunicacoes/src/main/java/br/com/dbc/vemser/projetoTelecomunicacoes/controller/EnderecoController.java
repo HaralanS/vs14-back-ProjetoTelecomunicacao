@@ -3,6 +3,7 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.controller;
 import br.com.dbc.vemser.projetoTelecomunicacoes.documentacao.EnderecoControllerDoc;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.EnderecoCreateDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.EnderecoDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.service.EnderecoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class EnderecoController implements EnderecoControllerDoc {
     }
 
     @GetMapping("/pessoa/{idPessoa}") // GET http://localhost:8080/endereco/pessoa/{idPessoa}
-    public ResponseEntity<EnderecoDTO> listByIdPessoa(@PathVariable("idPessoa") Integer id) {
+    public ResponseEntity<EnderecoDTO> listByIdPessoa(@PathVariable("idPessoa") Integer id) throws Exception {
         log.debug("Retornando endereço com idPessoa!");
         EnderecoDTO enderecoDTO = enderecoService.listByIdPessoa(id);
         log.debug("Retorno concluido com sucesso!");

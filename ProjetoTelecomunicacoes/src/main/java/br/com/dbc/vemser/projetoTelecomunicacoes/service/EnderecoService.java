@@ -37,7 +37,7 @@ public class EnderecoService {
         return objectMapper.convertValue(endereco, EnderecoDTO.class);
     }
 
-    public EnderecoDTO listByIdPessoa(Integer id) throws RegraDeNegocioException {
+    public EnderecoDTO listByIdPessoa(Integer id) throws Exception {
         log.debug("Entrando na EnderecoService");
         Endereco endereco = enderecoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
