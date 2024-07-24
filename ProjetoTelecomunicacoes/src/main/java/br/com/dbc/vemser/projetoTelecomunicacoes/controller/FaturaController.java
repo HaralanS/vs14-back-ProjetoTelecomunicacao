@@ -17,7 +17,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/fatura") // localhost:8080/pessoa
-public class FaturaController implements FaturaControllerDoc {
+public class FaturaController {
 
     private final FaturaService faturaService;
 
@@ -25,20 +25,20 @@ public class FaturaController implements FaturaControllerDoc {
         this.faturaService = faturaService;
     }
 
-    @GetMapping("/pessoafatura/{idCliente}") // GET http://localhost:8080/fatura/pessoafatura/{idCliente}
-    public ResponseEntity<List<FaturaDTO>> listByClient(@PathVariable("idCliente") Integer id) throws Exception {
+    @GetMapping("/pessoafatura/{idCliente}") // GET
+    public ResponseEntity<List<FaturaDTO>> listByIdClient(@PathVariable("idCliente") Integer id)  {
         log.debug("Listando fatura por id do cliente");
-        List<FaturaDTO> listaFaturas = faturaService.listByClient(id);
+        List<FaturaDTO> list = faturaService.listByIdClient(id);
         log.debug("Listagem concluida");
-        return new ResponseEntity<>(listaFaturas, HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PutMapping("/pagar/cliente/{idCliente}") // PUT localhost:8080/fatura/pagar/{idCliente}
-    public ResponseEntity<String> pagarFatura(@PathVariable("idCliente") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception {
-        log.debug("Pagando fatura");
-        faturaService.pagarFatura(id, pagamentoDTO.getNumeroFatura(), pagamentoDTO.getValorPago(), pagamentoDTO.getDataBaixa());
+    public ResponseEntity<List<FaturaDTO>> payInvoice(@PathVariable("idCliente") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception {
+        log.debug("Pagando fatura!");
+        List<FaturaDTO> list = faturaService.payInvoice(id, pagamentoDTO);
         log.debug("Pagamento de fatura concluido");
-        return new ResponseEntity<>("Seu pagamento deu certo!", HttpStatus.OK);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }

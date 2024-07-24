@@ -3,6 +3,7 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.service;
 
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaCreateDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.PagamentoDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
 import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.repository.ClienteRepository;
@@ -29,61 +30,41 @@ public class FaturaService {
         this.clienteRepository = clienteRepository;
     }
 
-    public List<FaturaDTO> list(){
-        List<FaturaDTO> list = faturaRepository.list().stream()
+    public List<FaturaDTO> listByIdClient(Integer idCliente) {
+        log.debug("Entrando na FaturaService");
+        List<FaturaDTO> list = faturaRepository.findAllByIdCliente(idCliente)
+                .stream()
                 .map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class))
                 .collect(Collectors.toList());
         return list;
     }
 
-    public List<FaturaDTO> listByClient(Integer idCliente) throws Exception {
-        getIdCliente(idCliente);
+    public List<FaturaDTO> payInvoice(Integer id, PagamentoDTO pagamentoDTO) throws Exception {
+        log.debug("Entrando na FaturaService");
+        List<FaturaDTO> list = listByIdClient(id);
+        for (FaturaDTO fatura : list) {
+            if (fatura.getNumeroFatura() == pagamentoDTO.getNumeroFatura()) {
+                fatura.setDataBaixa(pagamentoDTO.getDataBaixa());
+                fatura.setValorPago(pagamentoDTO.getValorPago());
+                break;
+            }
+        }
+        faturaRepository.deleteByPessoaId(id);
+        for (FaturaDTO fatura : list) {
+            create(fatura);
+        }
+        return list;
+    }
 
-        return  faturaRepository.listByClient(idCliente).stream()
-                .map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class))
-                .collect(Collectors.toList());
+    public void create(FaturaDTO dto) {
+        Fatura faturaEntity = objectMapper.convertValue(dto, Fatura.class);
+        faturaRepository.save(faturaEntity);
     }
 
 
 
-    public void pagarFatura(Integer idCliente, Integer numeroFatura, double valorBaixa, LocalDate dataBaixa) throws Exception {
-        FaturaDTO faturaDTO = objectMapper.convertValue(faturaRepository.pagarFatura(idCliente, numeroFatura, valorBaixa, dataBaixa), FaturaDTO.class);
 
-    }
 
-    public FaturaDTO create(FaturaCreateDTO faturaCreateDTO) throws Exception {
 
-        Fatura fatura = objectMapper.convertValue(faturaCreateDTO, Fatura.class);
-        faturaRepository.create(fatura);
-        FaturaDTO faturaDTO = objectMapper.convertValue(fatura, FaturaDTO.class);
-        return faturaDTO;
-
-    }
-
-//    public FaturaDTO findByIdDTO(Integer idFatura) throws Exception {
-//        Fatura faturaRecuperada = faturaRepository.list().stream().filter(fatura -> fatura.getIdFatura()
-//                .equals(idFatura)).findFirst().orElseThrow(() -> new RegraDeNegocioException("Fatura não encontrada!"));
-//        FaturaDTO faturaDTO = objectMapper.convertValue(faturaRecuperada, FaturaDTO.class);
-//        return faturaDTO;
-//    }
-
-    private Fatura getFatura(Integer idFatura) throws Exception {
-        Fatura faturaRecuperada = faturaRepository.list().stream().filter(fatura -> fatura.getIdFatura()
-                .equals(idFatura)).findFirst().orElseThrow(() -> new RegraDeNegocioException("Fatura não encontrada!"));
-
-        return faturaRecuperada;
-    }
-
-    public void delete(Integer id) throws Exception {
-        Fatura fatura = getFatura(id);
-        faturaRepository.delete(fatura);
-    }
-
-    private Integer getIdCliente(Integer id) throws Exception {
-        return clienteRepository.getAllClientes().stream()
-                .filter(cliente -> cliente.getIdPessoa().equals(id))
-                .findFirst().orElseThrow(() -> new RuntimeException("Cliente não encontrado!")).getIdPessoa();
-
-    }
 
 }
