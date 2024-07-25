@@ -49,4 +49,3 @@ public class EnderecoController implements EnderecoControllerDoc {
         return new ResponseEntity<>(enderecoAtualizado, HttpStatus.OK);
     }
 }
-

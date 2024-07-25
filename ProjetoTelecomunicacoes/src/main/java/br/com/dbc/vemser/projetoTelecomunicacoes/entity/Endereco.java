@@ -9,7 +9,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity(name = "Endereco")
+
+
+@Entity(name = "tb_endereco")
 public class Endereco {
 
     @Id
@@ -18,7 +20,7 @@ public class Endereco {
     @Column(name = "id_endereco")
     private Integer idEndereco;
 
-    @Column(name = "id_pessoa")
+    @Column(name = "id_cliente")
     private Integer idPessoa;
 
     @Column(name = "tipo")
