@@ -47,11 +47,8 @@ public class EnderecoService {
     public EnderecoDTO create(Integer id, EnderecoCreateDTO dto) throws Exception {
         log.debug("Entrando na EnderecoService");
         Endereco enderecoEntity = objectMapper.convertValue(dto, Endereco.class);
-        enderecoEntity.setIdPessoa(id);
-        Endereco savedEndereco = enderecoRepository.save(enderecoEntity);
-        EnderecoDTO enderecoDTO = objectMapper.convertValue(savedEndereco, EnderecoDTO.class);
-        // Cliente clienteEntity = clienteService.getPessoa(id);
-        // emailService.sendEmail(clienteEntity, "ce");
+        enderecoEntity = enderecoRepository.save(enderecoEntity);
+        EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
         return enderecoDTO;
     }
 
@@ -61,7 +58,6 @@ public class EnderecoService {
                 .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
         Endereco enderecoEntity = objectMapper.convertValue(dto, Endereco.class);
         enderecoEntity.setIdEndereco(enderecoRecuperado.getIdEndereco());
-        enderecoEntity.setIdPessoa(enderecoRecuperado.getIdPessoa());
         Endereco updatedEndereco = enderecoRepository.save(enderecoEntity);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(updatedEndereco, EnderecoDTO.class);
 //        Cliente clienteEntity = clienteService.getPessoa(enderecoDTO.getIdPessoa());

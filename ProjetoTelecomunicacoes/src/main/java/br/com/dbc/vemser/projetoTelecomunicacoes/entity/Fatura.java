@@ -1,16 +1,16 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "tb_fatura")
 public class Fatura {
 
     @Id
@@ -19,8 +19,8 @@ public class Fatura {
     @Column(name = "id_fatura")
     private Integer idFatura;
 
-    @Column(name = "id_cliente")
-    private Integer idCliente;
+//    @Column(name = "id_cliente")
+//    private Integer idCliente;
 
     @Column(name = "dt_vencimento")
     private LocalDate dataVencimento;
@@ -36,6 +36,11 @@ public class Fatura {
 
     @Column(name = "numero_fatura")
     private Integer numeroFatura;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+    private Cliente cliente;
 
 }
 

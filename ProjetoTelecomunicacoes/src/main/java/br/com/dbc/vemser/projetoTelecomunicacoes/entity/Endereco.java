@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
@@ -9,8 +10,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-
-
 @Entity(name = "tb_endereco")
 public class Endereco {
 
@@ -20,8 +19,8 @@ public class Endereco {
     @Column(name = "id_endereco")
     private Integer idEndereco;
 
-    @Column(name = "id_cliente")
-    private Integer idPessoa;
+//    @Column(name = "id_cliente")
+//    private Integer idPessoa;
 
     @Column(name = "tipo")
     private TipoEndereco tipo;
@@ -46,4 +45,9 @@ public class Endereco {
 
     @Column(name = "pais")
     private String pais;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+    private Cliente cliente;
 }
