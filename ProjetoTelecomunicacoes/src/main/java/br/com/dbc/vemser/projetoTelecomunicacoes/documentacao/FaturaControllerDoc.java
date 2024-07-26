@@ -11,30 +11,28 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
 public interface FaturaControllerDoc {
 
-    @Operation(summary = "Lista uma fatura.", description = "Lista a fatura pelo id da pessoa.")
+    @Operation(summary = "Listar faturas por id do cliente.", description = "Lista as faturas pelo id do cliente.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a fatura."),
+                    @ApiResponse(responseCode = "200", description = "Faturas listadas com sucesso."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @GetMapping("/pessoa/{idCliente}") // GET http://localhost:8080/fatura/{idFatura}
-    public ResponseEntity<List<FaturaDTO>> listByClient(@PathVariable("idCliente") Integer id) throws Exception;
+    @GetMapping("/pessoafatura/{idCliente}") // GET http://localhost:8080/fatura/pessoafatura/{idCliente}
+    public ResponseEntity<List<FaturaDTO>> listByIdClient(@PathVariable("idCliente") Integer id) throws Exception;
 
-
-    @Operation(summary = "Paga uma fatura.", description = "Paga uma fatura pelo id dela.")
+    @Operation(summary = "Pagar fatura.", description = "Paga uma fatura pelo id do cliente.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a fatura atualizada."),
+                    @ApiResponse(responseCode = "200", description = "Fatura paga com sucesso."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @PutMapping("/pagar/cliente/{idCliente}") // PUT localhost:8080/fatura/cliente/{idCliente}
-    public ResponseEntity<String> pagarFatura(@PathVariable("idCliente") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception;
+    @PutMapping("/pagar/cliente/{idCliente}") // PUT localhost:8080/fatura/pagar/cliente/{idCliente}
+    public ResponseEntity<List<FaturaDTO>> payInvoice(@PathVariable("idCliente") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception;
 
 }
