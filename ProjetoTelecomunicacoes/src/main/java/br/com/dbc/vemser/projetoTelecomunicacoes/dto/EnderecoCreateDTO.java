@@ -2,17 +2,16 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.dto;
 
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.TipoEndereco;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class EnderecoCreateDTO {
 
     @Schema(description = "Id da pessoa.", example = "1")

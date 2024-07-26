@@ -15,8 +15,8 @@ import java.util.Set;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
-    @SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa2", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente")
+    @SequenceGenerator(name = "seq_cliente", sequenceName = "seq_cliente", allocationSize = 1)
     @Column(name = "id_cliente")
     private Integer idPessoa;
 
@@ -41,10 +41,10 @@ public class Cliente {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(mappedBy = "tb_cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Fatura> faturas;
 
-    @OneToMany(mappedBy = "tb_cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Endereco> enderecos;
 
 }

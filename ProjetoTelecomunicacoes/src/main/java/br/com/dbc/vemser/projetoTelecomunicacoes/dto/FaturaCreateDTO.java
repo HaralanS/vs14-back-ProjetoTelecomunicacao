@@ -1,26 +1,25 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Data
-//@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class FaturaCreateDTO {
 
-    public FaturaCreateDTO(Integer idCliente, LocalDate dataVencimento, LocalDate dataBaixa, double parcelaDoPlano, double valorPago, Integer numeroFatura) {
-        this.idCliente = idCliente;
-        this.dataVencimento = dataVencimento;
-        this.dataBaixa = dataBaixa;
-        this.parcelaDoPlano = parcelaDoPlano;
-        this.valorPago = valorPago;
-        this.numeroFatura = numeroFatura;
-    }
+//    public FaturaCreateDTO(Integer idCliente, LocalDate dataVencimento, LocalDate dataBaixa, double parcelaDoPlano, double valorPago, Integer numeroFatura) {
+//        this.idCliente = idCliente;
+//        this.dataVencimento = dataVencimento;
+//        this.dataBaixa = dataBaixa;
+//        this.parcelaDoPlano = parcelaDoPlano;
+//        this.valorPago = valorPago;
+//        this.numeroFatura = numeroFatura;
+//    }
 
     @Schema(description = "Id do cliente", example = "2")
     private Integer idCliente;
