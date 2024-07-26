@@ -30,31 +30,31 @@ public class FaturaService {
         this.clienteRepository = clienteRepository;
     }
 
-    public List<FaturaDTO> listByIdClient(Integer idCliente) {
-        log.debug("Entrando na FaturaService");
-        List<FaturaDTO> list = faturaRepository.findAllByIdCliente(idCliente)
-                .stream()
-                .map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class))
-                .collect(Collectors.toList());
-        return list;
-    }
-
-    public List<FaturaDTO> payInvoice(Integer id, PagamentoDTO pagamentoDTO) throws Exception {
-        log.debug("Entrando na FaturaService");
-        List<FaturaDTO> list = listByIdClient(id);
-        for (FaturaDTO fatura : list) {
-            if (fatura.getNumeroFatura() == pagamentoDTO.getNumeroFatura()) {
-                fatura.setDataBaixa(pagamentoDTO.getDataBaixa());
-                fatura.setValorPago(pagamentoDTO.getValorPago());
-                break;
-            }
-        }
-        faturaRepository.deleteByPessoaId(id);
-        for (FaturaDTO fatura : list) {
-            create(fatura);
-        }
-        return list;
-    }
+//    public List<FaturaDTO> listByIdClient(Integer idCliente) {
+//        log.debug("Entrando na FaturaService");
+//        List<FaturaDTO> list = faturaRepository.findAllByIdCliente(idCliente)
+//                .stream()
+//                .map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class))
+//                .collect(Collectors.toList());
+//        return list;
+//    }
+//
+//    public List<FaturaDTO> payInvoice(Integer id, PagamentoDTO pagamentoDTO) throws Exception {
+//        log.debug("Entrando na FaturaService");
+//        List<FaturaDTO> list = listByIdClient(id);
+//        for (FaturaDTO fatura : list) {
+//            if (fatura.getNumeroFatura() == pagamentoDTO.getNumeroFatura()) {
+//                fatura.setDataBaixa(pagamentoDTO.getDataBaixa());
+//                fatura.setValorPago(pagamentoDTO.getValorPago());
+//                break;
+//            }
+//        }
+//        faturaRepository.deleteByPessoaId(id);
+//        for (FaturaDTO fatura : list) {
+//            create(fatura);
+//        }
+//        return list;
+//    }
 
     public void create(FaturaDTO dto) {
         Fatura faturaEntity = objectMapper.convertValue(dto, Fatura.class);

@@ -2,16 +2,15 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.dto;
 
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.TipoDePlano;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ClienteCreateDTO {
 
     @Schema(description = "Nome da Pessoa", example = "Rafael Lazzari")
@@ -36,13 +35,15 @@ public class ClienteCreateDTO {
     @NotNull
     private Long numeroTelefone;
 
+    @Schema(description = "Tipo de plano de 1 a 3", example = "2")
+    @NotNull
+    private TipoDePlano tipoDePlano;
+
     @Schema(description = "Status do cliente", example = "true")
     @NotNull
     private boolean status;
 
-    @Schema(description = "Tipo de plano de 1 a 3", example = "2")
-    @NotNull
-    private TipoDePlano tipoDePlano;
+
 
 
 }

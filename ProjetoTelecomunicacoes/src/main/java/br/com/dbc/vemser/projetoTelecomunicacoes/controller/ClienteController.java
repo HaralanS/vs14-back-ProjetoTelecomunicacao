@@ -56,6 +56,7 @@ public class ClienteController implements ClienteControllerDoc {
 
     @PostMapping // POST localhost:8080/cliente
     public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteCreateDTO pessoa) throws Exception {
+
         log.debug("Criando uma pessoa!");
         ClienteDTO clienteCriado = clienteService.createCliente(pessoa);
         log.debug("Criou com sucesso!");
@@ -78,7 +79,7 @@ public class ClienteController implements ClienteControllerDoc {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{idCliente}") // DELETE localhost:8080/cliente/10
+    @GetMapping("/tela1/{idCliente}") // DELETE localhost:8080/cliente/10
     public ResponseEntity<ClienteTela1DTO> findClienteTela1ById(@PathVariable("idCliente") Integer id) throws Exception {
 
         log.debug("Buscando cliente pra tela 1!");

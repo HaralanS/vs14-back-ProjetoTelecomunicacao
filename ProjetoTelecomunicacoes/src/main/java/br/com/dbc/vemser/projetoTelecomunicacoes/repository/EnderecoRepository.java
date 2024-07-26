@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
-    List<Endereco> findByIdPessoa(Integer idPessoa);
+//    List<Endereco> findByIdPessoa(Integer idPessoa);
 }

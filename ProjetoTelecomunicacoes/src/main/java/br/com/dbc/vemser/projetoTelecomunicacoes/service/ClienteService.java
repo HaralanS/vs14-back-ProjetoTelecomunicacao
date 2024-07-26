@@ -61,6 +61,7 @@ public class ClienteService {
         return list;
     }
     public ClienteTela1DTO findClienteTela1ById(Integer id) throws SQLException, RegraDeNegocioException {
+
         Optional<Cliente> cliente = clienteRepository.findClienteTela1ById(id);
         if (cliente == null){
             throw new RegraDeNegocioException("Nao existem clientes com o id: " + id);
@@ -70,8 +71,16 @@ public class ClienteService {
     }
 
     public ClienteDTO createCliente(ClienteCreateDTO dto) throws Exception {
+
+        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
+        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
+        System.out.println("- - - - - - create cliente service entrou - - - - - -  - -");
+        System.out.println("tipo de plano:" + dto.getTipoDePlano());
+        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
+        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
         log.debug("Entrando na ClienteService");
         Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
+
         clienteEntity = clienteRepository.save(clienteEntity);
         ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
         emailService.sendEmail(clienteEntity, "cp");
