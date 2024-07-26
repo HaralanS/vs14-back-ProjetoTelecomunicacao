@@ -3,6 +3,7 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.controller;
 import br.com.dbc.vemser.projetoTelecomunicacoes.documentacao.ClienteControllerDoc;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.ClienteCreateDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.ClienteDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.ClienteTela1DTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.service.ClienteService;
 import br.com.dbc.vemser.projetoTelecomunicacoes.service.PropertieReader;
 import lombok.extern.slf4j.Slf4j;
@@ -76,4 +77,14 @@ public class ClienteController implements ClienteControllerDoc {
         log.debug("Deletou com sucesso!");
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{idCliente}") // DELETE localhost:8080/cliente/10
+    public ResponseEntity<ClienteTela1DTO> findClienteTela1ById(@PathVariable("idCliente") Integer id) throws Exception {
+
+        log.debug("Buscando cliente pra tela 1!");
+        ClienteTela1DTO clienteTela1DTO = clienteService.findClienteTela1ById(id);
+        return new ResponseEntity<>(clienteTela1DTO, HttpStatus.OK);
+    }
+
+
 }

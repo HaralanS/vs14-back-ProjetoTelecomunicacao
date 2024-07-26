@@ -1,9 +1,6 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.service;
 
-import br.com.dbc.vemser.projetoTelecomunicacoes.dto.ClienteCreateDTO;
-import br.com.dbc.vemser.projetoTelecomunicacoes.dto.ClienteDTO;
-import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaCreateDTO;
-import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.*;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Cliente;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.Plano;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -61,6 +59,14 @@ public class ClienteService {
                 .map(cliente -> objectMapper.convertValue(cliente, ClienteDTO.class))
                 .collect(Collectors.toList());
         return list;
+    }
+    public ClienteTela1DTO findClienteTela1ById(Integer id) throws SQLException, RegraDeNegocioException {
+        Optional<Cliente> cliente = clienteRepository.findClienteTela1ById(id);
+        if (cliente == null){
+            throw new RegraDeNegocioException("Nao existem clientes com o id: " + id);
+        }
+        ClienteTela1DTO clienteTela1DTO = objectMapper.convertValue(cliente, ClienteTela1DTO.class);
+        return clienteTela1DTO;
     }
 
     public ClienteDTO createCliente(ClienteCreateDTO dto) throws Exception {
