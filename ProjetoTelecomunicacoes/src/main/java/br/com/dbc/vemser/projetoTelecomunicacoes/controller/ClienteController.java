@@ -79,10 +79,9 @@ public class ClienteController implements ClienteControllerDoc {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/tela1/{idCliente}") // DELETE localhost:8080/cliente/10
+    @GetMapping("/tela1e2/{idCliente}") // DELETE localhost:8080/cliente/10
     public ResponseEntity<ClienteTela1DTO> findClienteTela1ById(@PathVariable("idCliente") Integer id) throws Exception {
-
-        log.debug("Buscando cliente pra tela 1!");
+        log.debug("Buscando cliente pra tela 1 e 2!");
         ClienteTela1DTO clienteTela1DTO = clienteService.findClienteTela1ById(id);
         return new ResponseEntity<>(clienteTela1DTO, HttpStatus.OK);
     }

@@ -21,4 +21,8 @@ public class ClienteTela1DTO{
 
     private String cpf;
 
+    private String email;
+
+    private Long numeroTelefone;
+
 }

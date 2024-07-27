@@ -12,12 +12,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Validated
 @RestController
 @RequestMapping("/endereco")
-public class EnderecoController implements EnderecoControllerDoc {
+public class EnderecoController {
 
     private final EnderecoService enderecoService;
 
@@ -26,11 +27,11 @@ public class EnderecoController implements EnderecoControllerDoc {
     }
 
     @GetMapping("/pessoa/{idPessoa}") // GET http://localhost:8080/endereco/pessoa/{idPessoa}
-    public ResponseEntity<EnderecoDTO> listByIdPessoa(@PathVariable("idPessoa") Integer id) throws Exception {
+    public ResponseEntity<List<EnderecoDTO>> listByIdPessoaEndereco(@PathVariable("idPessoa") Integer id) throws Exception {
         log.debug("Retornando endereço com idPessoa!");
-        EnderecoDTO enderecoDTO = enderecoService.listByIdPessoa(id);
+        List<EnderecoDTO> enderecoDTOList = enderecoService.listByIdPessoa(id);
         log.debug("Retorno concluido com sucesso!");
-        return new ResponseEntity<>(enderecoDTO, HttpStatus.OK);
+        return new ResponseEntity<>(enderecoDTOList, HttpStatus.OK);
     }
 
     @PostMapping("/{idPessoa}") // POST http://localhost:8080/endereco/{idPessoa}

@@ -1,9 +1,12 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.repository;
 
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Endereco;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -17,6 +20,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
 
 //    List<FaturaDTO> findAllByIdCliente(Integer idFatura);
-//    void deleteByPessoaId(Integer pessoaId);
+    @Query("SELECT DISTINCT f FROM tb_fatura f JOIN f.cliente c WHERE c.idCliente = :idCliente")
+    List<Fatura> findFaturaPorIdPessoa(@Param("idCliente") Integer idCliente);
+
+//    @Query("DELETE f FROM tb_fatura f JOIN f.cliente c WHERE c.idCliente = :idCliente")
+//    void deleteFaturaPorIdPessoa(@Param("idCliente") Integer idCliente);
+//    void deleteAllByIdCliente(Integer pessoaId);
 
 }

@@ -25,14 +25,14 @@ public class FaturaController {
         this.faturaService = faturaService;
     }
 
-//    @GetMapping("/pessoafatura/{idCliente}") // GET
-//    public ResponseEntity<List<FaturaDTO>> listByIdClient(@PathVariable("idCliente") Integer id)  {
-//        log.debug("Listando fatura por id do cliente");
-//        List<FaturaDTO> list = faturaService.listByIdClient(id);
-//        log.debug("Listagem concluida");
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
-//
+    @GetMapping("/pessoafatura/{idCliente}") // GET
+    public ResponseEntity<List<FaturaDTO>> listByIdClient(@PathVariable("idCliente") Integer id)  {
+        log.debug("Listando fatura por id do cliente");
+        List<FaturaDTO> list = faturaService.listByIdClient(id);
+        log.debug("Listagem concluida");
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 //    @PutMapping("/pagar/cliente/{idCliente}") // PUT localhost:8080/fatura/pagar/{idCliente}
 //    public ResponseEntity<List<FaturaDTO>> payInvoice(@PathVariable("idCliente") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception {
 //        log.debug("Pagando fatura!");
@@ -40,5 +40,13 @@ public class FaturaController {
 //        log.debug("Pagamento de fatura concluido");
 //        return new ResponseEntity<>(list, HttpStatus.OK);
 //    }
+
+    @PutMapping("/pagar/{idFatura}") // PUT localhost:8080/fatura/pagar/{idCliente}
+    public ResponseEntity<FaturaDTO> payInvoice(@PathVariable("idFatura") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception {
+        log.debug("Pagando fatura!");
+        FaturaDTO fatura = faturaService.pagarFatura(id, pagamentoDTO);
+        log.debug("Pagamento de fatura concluido");
+        return new ResponseEntity<>(fatura, HttpStatus.OK);
+    }
 
 }

@@ -92,8 +92,8 @@ public class ClienteService {
         for (int i = 0; i < 12; i++) {
             LocalDate dataVencimento = dataAtual.plusMonths((i + 1));
             FaturaCreateDTO faturaCreateDTO = new FaturaCreateDTO(clienteEntity.getIdCliente(), dataVencimento, null, valorPlano, 0, (Integer) (i+1));
-            System.out.println("id: " + faturaCreateDTO.getIdCliente() + "Dtvncmnt: " + faturaCreateDTO.getDataVencimento() + "Dtbx: " + faturaCreateDTO.getDataBaixa() + "prcla: " + faturaCreateDTO.getParcelaDoPlano() + "vlor pago: " + faturaCreateDTO.getValorPago() + "n fatura: " + faturaCreateDTO.getNumeroFatura());
             Fatura fatura = objectMapper.convertValue(faturaCreateDTO, Fatura.class);
+            fatura.setCliente(getPessoa(clienteEntity.getIdCliente()));
             log.debug("Criando fatura após criar cliente");
             faturaRepository.save(fatura);
         }

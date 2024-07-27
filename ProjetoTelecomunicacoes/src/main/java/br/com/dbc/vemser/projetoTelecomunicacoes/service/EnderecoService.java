@@ -21,6 +21,7 @@ public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
     private final ObjectMapper objectMapper;
+    private final ClienteService clienteService;
 
     public List<EnderecoDTO> list() {
         log.debug("Entrando na EnderecoService");
@@ -37,16 +38,25 @@ public class EnderecoService {
         return objectMapper.convertValue(endereco, EnderecoDTO.class);
     }
 
-    public EnderecoDTO listByIdPessoa(Integer id) throws Exception {
+    public List<EnderecoDTO> listByIdPessoa(Integer id) throws Exception {
         log.debug("Entrando na EnderecoService");
-        Endereco endereco = enderecoRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
-        return objectMapper.convertValue(endereco, EnderecoDTO.class);
+//        List<EnderecoDTO> enderecoDTOList = enderecoRepository.findEnderecoPorIdPessoa(id).stream().map(endereco -> {
+//            EnderecoDTO enderecoDto = objectMapper.convertValue(endereco, EnderecoDTO.class);
+//            return enderecoDto;
+//        }).collect(Collectors.toList());
+
+        List<EnderecoDTO> list = enderecoRepository.findEnderecoPorIdPessoa(id)
+                .stream()
+                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                .collect(Collectors.toList());
+        return list;
+
     }
 
     public EnderecoDTO create(Integer id, EnderecoCreateDTO dto) throws Exception {
         log.debug("Entrando na EnderecoService");
         Endereco enderecoEntity = objectMapper.convertValue(dto, Endereco.class);
+        enderecoEntity.setCliente(clienteService.getPessoa(dto.getIdPessoa()));
         enderecoEntity = enderecoRepository.save(enderecoEntity);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
         return enderecoDTO;
