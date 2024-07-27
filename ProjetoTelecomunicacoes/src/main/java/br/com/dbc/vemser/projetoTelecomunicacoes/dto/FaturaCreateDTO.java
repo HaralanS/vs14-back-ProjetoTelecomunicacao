@@ -12,15 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class FaturaCreateDTO {
 
-//    public FaturaCreateDTO(Integer idCliente, LocalDate dataVencimento, LocalDate dataBaixa, double parcelaDoPlano, double valorPago, Integer numeroFatura) {
-//        this.idCliente = idCliente;
-//        this.dataVencimento = dataVencimento;
-//        this.dataBaixa = dataBaixa;
-//        this.parcelaDoPlano = parcelaDoPlano;
-//        this.valorPago = valorPago;
-//        this.numeroFatura = numeroFatura;
-//    }
-
     @Schema(description = "Id do cliente", example = "2")
     private Integer idCliente;
 

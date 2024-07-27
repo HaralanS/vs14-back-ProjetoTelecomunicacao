@@ -3,10 +3,7 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.service;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.*;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Cliente;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
-import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.Plano;
-import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.PlanoBasico;
-import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.PlanoMedium;
-import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.PlanoPremium;
+import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.*;
 import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.repository.ClienteRepository;
 
@@ -71,47 +68,37 @@ public class ClienteService {
     }
 
     public ClienteDTO createCliente(ClienteCreateDTO dto) throws Exception {
-
-
         log.debug("Entrando na ClienteService");
         Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
-        clienteEntity = clienteRepository.save(clienteEntity);
+        clienteRepository.save(clienteEntity);
 
-        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
-        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
-        System.out.println("- - - - - - create cliente service entrou - - - - - -  - -");
-        System.out.println("tipo de plano:" + dto.getTipoDePlano());
-        System.out.println("tipo de plano:" + clienteEntity.getIdCliente());
-        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
-        System.out.println("- - - - - -  - - - - - - - - - - - - - -- - - -  - -");
+        TipoDePlano tipoDePlano = clienteEntity.getTipoDePlano();
+        Double valorPlano = 0.0;
 
-        ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
-//        emailService.sendEmail(clienteEntity, "cp");
+        switch (tipoDePlano){
+            case BASICO:
+                valorPlano = 10.0;
+                break;
+            case MEDIUM:
+                valorPlano = 20.0;
+                break;
+            case PREMIUM:
+                valorPlano = 30.0;
+                break;
+        }
 
-//        Plano plano = null;
-//        switch (clienteEntity.getTipoDePlano()){
-//            case BASICO:
-//                plano = new PlanoBasico();
-//                break;
-//            case MEDIUM:
-//                plano = new PlanoMedium();
-//                break;
-//            case PREMIUM:
-//                plano = new PlanoPremium();
-//                break;
-//        }
-
-        System.out.println(plano.getValor());
         LocalDate dataAtual = LocalDate.now();
+
         for (int i = 0; i < 12; i++) {
             LocalDate dataVencimento = dataAtual.plusMonths((i + 1));
-            FaturaCreateDTO faturaCreateDTO = new FaturaCreateDTO(clienteEntity.getIdCliente(), dataVencimento, null, plano.getValor(), 0, (Integer) (i+1));
+            FaturaCreateDTO faturaCreateDTO = new FaturaCreateDTO(clienteEntity.getIdCliente(), dataVencimento, null, valorPlano, 0, (Integer) (i+1));
             System.out.println("id: " + faturaCreateDTO.getIdCliente() + "Dtvncmnt: " + faturaCreateDTO.getDataVencimento() + "Dtbx: " + faturaCreateDTO.getDataBaixa() + "prcla: " + faturaCreateDTO.getParcelaDoPlano() + "vlor pago: " + faturaCreateDTO.getValorPago() + "n fatura: " + faturaCreateDTO.getNumeroFatura());
             Fatura fatura = objectMapper.convertValue(faturaCreateDTO, Fatura.class);
             log.debug("Criando fatura após criar cliente");
             faturaRepository.save(fatura);
         }
 
+        ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
         return clienteDTO;
     }
 

@@ -2,10 +2,13 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class Plano {
 
@@ -14,4 +17,6 @@ public class Plano {
     private List<String> beneficios;
 
     public Plano(){};
+
+
 }
