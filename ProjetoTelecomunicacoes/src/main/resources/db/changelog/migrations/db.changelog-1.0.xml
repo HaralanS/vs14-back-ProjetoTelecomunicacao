@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="1" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE SEQUENCE tele_comunicacoes.SEQ_CLIENTE START 1;
+
+            CREATE SEQUENCE tele_comunicacoes.SEQ_ENDERECO START 1;
+
+            CREATE SEQUENCE tele_comunicacoes.SEQ_FATURA START 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE TABLE tele_comunicacoes.TB_CLIENTE (
+            id_cliente INTEGER PRIMARY KEY DEFAULT nextval('tele_comunicacoes.SEQ_CLIENTE'),
+            nome VARCHAR(255) NOT NULL,
+            dt_nascimento DATE,
+            cpf VARCHAR(11),
+            email VARCHAR(255),
+            numero_telefone INTEGER,
+            tipo_plano INTEGER,
+            status BOOLEAN
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE TABLE tele_comunicacoes.TB_FATURA (
+            id_fatura INTEGER PRIMARY KEY DEFAULT nextval('tele_comunicacoes.SEQ_FATURA'),
+            id_cliente INTEGER NOT NULL,
+            dt_vencimento DATE NOT NULL,
+            dt_baixa DATE,
+            parcela NUMERIC(10, 2) NOT NULL,
+            valor_pago NUMERIC(10, 2),
+            numero_fatura INTEGER NOT NULL,
+            FOREIGN KEY (id_cliente) REFERENCES tele_comunicacoes.TB_CLIENTE(id_cliente)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE TABLE tele_comunicacoes.TB_ENDERECO (
+            id_endereco INTEGER PRIMARY KEY DEFAULT nextval('tele_comunicacoes.SEQ_ENDERECO'),
+            id_cliente INTEGER NOT NULL,
+            tipo VARCHAR(50) NOT NULL,
+            logradouro VARCHAR(255) NOT NULL,
+            numero VARCHAR(50) NOT NULL,
+            complemento VARCHAR(255),
+            cep VARCHAR(20) NOT NULL,
+            cidade VARCHAR(100) NOT NULL,
+            estado VARCHAR(50) NOT NULL,
+            pais VARCHAR(50) NOT NULL,
+            FOREIGN KEY (id_cliente) REFERENCES tele_comunicacoes.TB_CLIENTE(id_cliente)
+            );
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
