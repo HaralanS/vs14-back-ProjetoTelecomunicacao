@@ -26,7 +26,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
     List<Cliente> findAllByNomeContainsIgnoreCase(String nome);
 
-    @Query("SELECT DISTINCT c FROM tb_cliente c WHERE c.idPessoa = :idPessoa")
+    @Query("SELECT DISTINCT c FROM tb_cliente c WHERE c.idCliente = :idPessoa")
     Optional<Cliente> findClienteTela1ById(@Param("idPessoa") Integer idPessoa);
 
 

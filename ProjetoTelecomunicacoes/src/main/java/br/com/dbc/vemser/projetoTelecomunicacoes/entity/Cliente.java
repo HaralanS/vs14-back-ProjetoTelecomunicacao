@@ -18,7 +18,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cliente")
     @SequenceGenerator(name = "seq_cliente", sequenceName = "seq_cliente", allocationSize = 1)
     @Column(name = "id_cliente")
-    private Integer idPessoa;
+    private Integer idCliente;
 
     @Column(name = "nome")
     private String nome;
