@@ -73,11 +73,11 @@ public class EmailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 
             mimeMessageHelper.setFrom(de);
-            mimeMessageHelper.setTo(para);
+            mimeMessageHelper.setTo(clienteEntity.getEmail());
 
             switch (templateString) {
-                case "ce":
-                    mimeMessageHelper.setSubject("Suporte PessoaAPI: Nova criação de endereço.");
+                case "cp":
+                    mimeMessageHelper.setSubject("Suporte Telecom.");
                     break;
                 case "ue":
                     mimeMessageHelper.setSubject("Suporte PessoaAPI: Nova atualização de endereço.");
@@ -98,9 +98,9 @@ public class EmailService {
     public String geContentFromTemplate() throws IOException, TemplateException {
         Map<String, Object> dados = new HashMap<>();
         dados.put("nome", cliente.getNome());
-        dados.put("id", cliente.getIdPessoa());
+//        dados.put("id", cliente.getIdPessoa());
         dados.put("email", cliente.getEmail());
-        dados.put("datanascimento", cliente.getDataNascimento());
+//        dados.put("datanascimento", cliente.getDataNascimento());
         dados.put("cpf", cliente.getCpf());
 
         String html = "";
@@ -108,7 +108,7 @@ public class EmailService {
         Template template;
 
         switch (templateString) {
-            case "ce":
+            case "cp":
                 template = fmConfiguration.getTemplate("email-templateCreate.ftl");
                 html = FreeMarkerTemplateUtils.processTemplateIntoString(template, dados);
                 break;

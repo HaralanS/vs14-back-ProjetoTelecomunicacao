@@ -10,40 +10,39 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-
 public interface EnderecoControllerDoc {
 
-    @Operation(summary = "Cria um endereco.", description = "Cria um novo endereço.")
+    @Operation(summary = "Criar um endereço.", description = "Cria um novo endereço para um cliente.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna um endereço criado."),
+                    @ApiResponse(responseCode = "200", description = "Endereço criado com sucesso."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @PostMapping // POST localhost:8080/endereco
-    public ResponseEntity<EnderecoDTO> create(Integer id, @Valid @RequestBody EnderecoCreateDTO endereco) throws Exception;
+    @PostMapping("/{idPessoa}") // POST localhost:8080/endereco/{idPessoa}
+    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception;
 
-    @Operation(summary = "Atualizar um endereço.", description = "Atualiza um endereço pelo id dele.")
+    @Operation(summary = "Atualizar um endereço.", description = "Atualiza um endereço pelo id do cliente.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna o endereço atualizado."),
+                    @ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @PutMapping("/{idEndereco}") // PUT localhost:8080/endereco/1000
-    public ResponseEntity<EnderecoDTO> update(@PathVariable("idEndereco") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoAtualizar) throws Exception;
+    @PutMapping("/{idPessoa}") // PUT localhost:8080/endereco/{idPessoa}
+    public ResponseEntity<EnderecoDTO> update(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception;
 
-    @Operation(summary = "Lista um endereco.", description = "Lista um endereço pelo id dele.")
+    @Operation(summary = "Listar endereço por id do cliente.", description = "Lista o endereço pelo id do cliente.")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna um endereço deletado."),
+                    @ApiResponse(responseCode = "200", description = "Endereço listado com sucesso."),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso."),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
     @GetMapping("/pessoa/{idPessoa}") // GET http://localhost:8080/endereco/pessoa/{idPessoa}
-    public ResponseEntity<EnderecoDTO> listByIdPessoa(@PathVariable("idPessoa") Integer id);
+    public ResponseEntity<EnderecoDTO> listByIdPessoa(@PathVariable("idPessoa") Integer id) throws Exception;
 
 }
