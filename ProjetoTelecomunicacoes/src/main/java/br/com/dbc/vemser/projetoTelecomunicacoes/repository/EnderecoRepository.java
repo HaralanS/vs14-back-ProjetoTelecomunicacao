@@ -16,5 +16,6 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
     List<Endereco> findEnderecoPorIdPessoa(@Param("idCliente") Integer idCliente);
 
 
+
 }
 

@@ -4,12 +4,17 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.service;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaCreateDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.PagamentoDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.PageDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
 import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.repository.ClienteRepository;
 import br.com.dbc.vemser.projetoTelecomunicacoes.repository.FaturaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,21 +49,28 @@ public class FaturaService {
         return list;
     }
 
-//    public List<FaturaDTO> payInvoice(Integer id, PagamentoDTO pagamentoDTO) throws Exception {
-//        log.debug("Entrando na FaturaService");
-//        List<FaturaDTO> list = listByIdClient(id);
-//        for (FaturaDTO fatura : list) {
-//            if (fatura.getNumeroFatura() == pagamentoDTO.getNumeroFatura()) {
-//                fatura.setDataBaixa(pagamentoDTO.getDataBaixa());
-//                fatura.setValorPago(pagamentoDTO.getValorPago());
-//                break;
-//            }
-//        }
-//
-//        faturaRepository.deleteFaturaPorIdPessoa(id);
-//
-//
-//    }
+    public PageDTO<FaturaDTO> listFaturasPaginacao(Integer pagina, Integer tamanho) throws RegraDeNegocioException {
+        log.debug("Entrando na FaturaService");
+        Pageable pageable = PageRequest.of(pagina, tamanho, Sort.by("idFatura").ascending());
+
+        Page<Fatura> faturaPage = faturaRepository.findAll(pageable);
+
+        Page<FaturaDTO> faturaDTOPage = faturaPage.map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class));
+
+        if (faturaDTOPage.isEmpty()){
+            throw new RegraDeNegocioException("Nenhuma fatura encontrado");
+        }
+
+
+        return new PageDTO<>(
+                faturaDTOPage.getTotalElements(),
+                faturaDTOPage.getTotalPages(),
+                faturaDTOPage.getPageable().getPageNumber(),
+                faturaDTOPage.getSize(),
+                faturaDTOPage.getContent()
+        );
+    }
+
     public FaturaDTO pagarFatura(Integer id, PagamentoDTO pagamentoDTO) throws Exception {
         Fatura fatura = getFatura(id);
         fatura.setValorPago(pagamentoDTO.getValorPago());
