@@ -42,8 +42,8 @@ public class EnderecoController {
         return new ResponseEntity<>(enderecoCriado, HttpStatus.OK);
     }
 
-    @PutMapping("/{idPessoa}") // PUT http://localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<EnderecoDTO> update(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception {
+    @PutMapping("/{id}") // PUT http://localhost:8080/endereco/{idPessoa}
+    public ResponseEntity<EnderecoDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception {
         log.debug("Atualizando endereço!");
         EnderecoDTO enderecoAtualizado = enderecoService.update(id, enderecoCreateDTO);
         log.debug("Atualizado com sucesso!");

@@ -3,6 +3,8 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.controller;
 import br.com.dbc.vemser.projetoTelecomunicacoes.documentacao.FaturaControllerDoc;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.PagamentoDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.PageDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.service.FaturaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,14 +35,6 @@ public class FaturaController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-//    @PutMapping("/pagar/cliente/{idCliente}") // PUT localhost:8080/fatura/pagar/{idCliente}
-//    public ResponseEntity<List<FaturaDTO>> payInvoice(@PathVariable("idCliente") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception {
-//        log.debug("Pagando fatura!");
-//        List<FaturaDTO> list = faturaService.payInvoice(id, pagamentoDTO);
-//        log.debug("Pagamento de fatura concluido");
-//        return new ResponseEntity<>(list, HttpStatus.OK);
-//    }
-
     @PutMapping("/pagar/{idFatura}") // PUT localhost:8080/fatura/pagar/{idCliente}
     public ResponseEntity<FaturaDTO> payInvoice(@PathVariable("idFatura") Integer id, @Valid @RequestBody PagamentoDTO pagamentoDTO) throws Exception {
         log.debug("Pagando fatura!");
@@ -48,5 +42,14 @@ public class FaturaController {
         log.debug("Pagamento de fatura concluido");
         return new ResponseEntity<>(fatura, HttpStatus.OK);
     }
+
+    @GetMapping("/paginacao") // GET localhost:8080/contato/hello
+    public PageDTO<FaturaDTO> listFaturasAscending(@RequestParam(value = "pagina", required = false, defaultValue = "0") Integer pagina,
+                                                   @RequestParam(value = "tamanho", required = false, defaultValue = "10") Integer tamanho
+    ) throws RegraDeNegocioException {
+        return faturaService.listFaturasPaginacao(pagina, tamanho);
+    }
+
+
 
 }

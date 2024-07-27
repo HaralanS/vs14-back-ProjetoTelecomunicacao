@@ -19,12 +19,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Repository
 public interface FaturaRepository extends JpaRepository<Fatura, Integer> {
 
-//    List<FaturaDTO> findAllByIdCliente(Integer idFatura);
+
     @Query("SELECT DISTINCT f FROM tb_fatura f JOIN f.cliente c WHERE c.idCliente = :idCliente")
     List<Fatura> findFaturaPorIdPessoa(@Param("idCliente") Integer idCliente);
 
-//    @Query("DELETE f FROM tb_fatura f JOIN f.cliente c WHERE c.idCliente = :idCliente")
-//    void deleteFaturaPorIdPessoa(@Param("idCliente") Integer idCliente);
-//    void deleteAllByIdCliente(Integer pessoaId);
 
 }

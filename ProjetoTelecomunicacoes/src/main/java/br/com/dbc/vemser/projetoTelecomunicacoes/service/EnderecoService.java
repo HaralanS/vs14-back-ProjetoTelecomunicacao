@@ -68,6 +68,7 @@ public class EnderecoService {
                 .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
         Endereco enderecoEntity = objectMapper.convertValue(dto, Endereco.class);
         enderecoEntity.setIdEndereco(enderecoRecuperado.getIdEndereco());
+        enderecoEntity.setCliente(clienteService.getPessoa(dto.getIdPessoa()));
         Endereco updatedEndereco = enderecoRepository.save(enderecoEntity);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(updatedEndereco, EnderecoDTO.class);
 //        Cliente clienteEntity = clienteService.getPessoa(enderecoDTO.getIdPessoa());
