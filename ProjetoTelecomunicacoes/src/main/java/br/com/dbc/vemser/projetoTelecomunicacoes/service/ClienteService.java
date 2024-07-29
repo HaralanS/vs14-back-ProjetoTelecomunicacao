@@ -121,7 +121,10 @@ public class ClienteService {
     public void delete(Integer id) throws Exception {
         log.debug("Entrando na PessoaService");
 
-        clienteRepository.deleteById(id);
+        Cliente cliente = getPessoa(id);
+        cliente.setStatus(false);
+        clienteRepository.save(cliente);
+//        clienteRepository.deleteById(id);
     }
 
     public Cliente getPessoa(Integer id) throws Exception {
