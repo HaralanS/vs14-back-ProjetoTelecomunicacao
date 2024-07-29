@@ -73,10 +73,10 @@
                     <p>Olá, ${nome}!</p>
                     <p>Informamos que o endereço cadastrado em nosso sistema foi deletado com sucesso. Abaixo estão os detalhes do responsável pelo endereço removido:</p>
                     <p>
-                        Nome: NOME<br>
+                        Nome: ${nome}<br>
                         Data de nascimento: DATA DE NASCIMENTO<br>
-                        CPF: CPF<br>
-                        Email: EMAIL
+                        CPF: ${cpf}<br>
+                        Email: ${email}
                     </p>
                 </div>
                 <img src="https://media.tenor.com/X0Wj8BSnOW8AAAAi/mocha-crying.gif" alt="Sad Image">

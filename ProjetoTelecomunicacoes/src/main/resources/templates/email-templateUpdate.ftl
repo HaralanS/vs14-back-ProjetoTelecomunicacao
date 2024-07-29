@@ -71,13 +71,13 @@
         <td class="content">
             <div style="display: flex; align-items: flex-start;">
                 <div>
-                    <p>Olá, NOME!</p>
+                    <p>Olá, ${nome}!</p>
                     <p>Gostaríamos de informar que o seu endereço foi atualizado com sucesso no nosso sistema. Abaixo estão os novos dados do responsável pelo seu novo endereço:</p>
                     <p>
-                        Nome: NOME<br>
+                        Nome: ${nome}<br>
                         Data de nascimento: DATA NASCIMENTO<br>
-                        CPF: CPF<br>
-                        Email: EMAIL
+                        CPF: ${cpf}<br>
+                        Email: ${email}
                     </p>
                 </div>
                 <img src="https://media.tenor.com/FI55cfvSsKEAAAAi/happy-cute.gif">

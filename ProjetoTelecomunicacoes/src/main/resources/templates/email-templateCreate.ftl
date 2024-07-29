@@ -70,12 +70,12 @@
         <td class="content">
             <div style="display: flex; align-items: flex-start;">
                 <div>
-                    <p>Olá, NOME!</p>
+                    <p>Olá, ${nome}!</p>
                     <p>É com grande satisfação que damos as boas-vindas ao Suporte Globoflix. Estamos aqui para auxiliar você em todas as suas necessidades relacionadas à criação de endereços e muito mais. Abaixo estão os seus dados cadastrados:</p>
                     <p>
-                        Nome: NOME<br>
-                        CPF: CPF<br>
-                        Email: EMAIL
+                        Nome: ${nome}<br>
+                        CPF: ${cpf}<br>
+                        Email: ${email}
                     </p>
                 </div>
                 <img src="https://media.tenor.com/O2rjmEEhDE8AAAAi/tonton-tonton-friends.gif" alt="Welcome Image">

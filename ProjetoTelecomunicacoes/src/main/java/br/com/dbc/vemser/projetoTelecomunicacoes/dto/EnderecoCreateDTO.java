@@ -17,7 +17,7 @@ public class EnderecoCreateDTO {
     @Schema(description = "Id da pessoa.", example = "1")
     private Integer idPessoa;
 
-    @Schema(description = "1 para residencial e 2 para comercial.", example = "2")
+    @Schema(description = "Tiop RESIDENCIAL ou COMERCIAL.", example = "COMERCIAL")
     @NotNull
     private TipoEndereco tipo;
 
