@@ -35,7 +35,7 @@ public class EnderecoController {
     }
 
     @PostMapping("/{idPessoa}") // POST http://localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception {
+    public ResponseEntity<EnderecoDTO> createEndereco(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception {
         log.debug("Criando endereço!");
         EnderecoDTO enderecoCriado = enderecoService.create(id, enderecoCreateDTO);
         log.debug("Criou endereço com sucesso!");

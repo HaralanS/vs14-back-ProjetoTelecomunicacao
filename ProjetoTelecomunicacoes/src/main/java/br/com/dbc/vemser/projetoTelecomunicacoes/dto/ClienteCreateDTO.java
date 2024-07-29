@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ClienteCreateDTO {
 
-    @Schema(description = "Nome da Pessoa", example = "Rafael Lazzari")
+    @Schema(description = "Nome da Pessoa", example = "Joao da Silva")
     @NotBlank
     private String nome;
 
@@ -22,7 +22,7 @@ public class ClienteCreateDTO {
     @NotNull
     private LocalDate dataNascimento;
 
-    @Schema(description = "CPF de uma Pessoa", example = "123456789101")
+    @Schema(description = "CPF de uma Pessoa", example = "12345678911")
     @NotBlank
     @Size(min = 11, max = 11)
     private String cpf;
@@ -31,11 +31,11 @@ public class ClienteCreateDTO {
     @Email
     private String email;
 
-    @Schema(description = "Numero de telefone com ddd", example = "47999556687")
+    @Schema(description = "Numero de telefone", example = "99556687")
     @NotNull
     private Long numeroTelefone;
 
-    @Schema(description = "Tipo de plano de 1 a 3", example = "2")
+    @Schema(description = "Tipo de plano de 0 a 2", example = "2")
     @NotNull
     private TipoDePlano tipoDePlano;
 

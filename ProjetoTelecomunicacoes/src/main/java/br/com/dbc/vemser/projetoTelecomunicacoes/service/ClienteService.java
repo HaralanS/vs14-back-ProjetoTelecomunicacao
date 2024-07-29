@@ -71,6 +71,7 @@ public class ClienteService {
         log.debug("Entrando na ClienteService");
         Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
         clienteRepository.save(clienteEntity);
+        emailService.sendEmail(clienteEntity, "cp");
 
         TipoDePlano tipoDePlano = clienteEntity.getTipoDePlano();
         Double valorPlano = 0.0;
@@ -119,6 +120,7 @@ public class ClienteService {
 
     public void delete(Integer id) throws Exception {
         log.debug("Entrando na PessoaService");
+
         clienteRepository.deleteById(id);
     }
 
