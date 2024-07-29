@@ -21,9 +21,9 @@ public interface EnderecoControllerDoc {
             }
     )
     @PostMapping("/{idPessoa}") // POST localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<EnderecoDTO> create(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception;
+    public ResponseEntity<EnderecoDTO> createEndereco(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception;
 
-    @Operation(summary = "Atualizar um endereço.", description = "Atualiza um endereço pelo id do cliente.")
+    @Operation(summary = "Atualizar um endereço.", description = "Atualiza um endereço pelo id.")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso."),
@@ -31,8 +31,9 @@ public interface EnderecoControllerDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção.")
             }
     )
-    @PutMapping("/{idPessoa}") // PUT localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<EnderecoDTO> update(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception;
+    @PutMapping("/{id}") // PUT localhost:8080/endereco/{idPessoa}
+    public ResponseEntity<EnderecoDTO> update(@PathVariable("id") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception;
+
 
     @Operation(summary = "Listar endereço por id do cliente.", description = "Lista o endereço pelo id do cliente.")
     @ApiResponses(
