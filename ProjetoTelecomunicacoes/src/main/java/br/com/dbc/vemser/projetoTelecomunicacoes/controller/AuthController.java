@@ -7,6 +7,8 @@ import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioExcept
 import br.com.dbc.vemser.projetoTelecomunicacoes.security.TokenService;
 import br.com.dbc.vemser.projetoTelecomunicacoes.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,4 +46,6 @@ public class AuthController {
 
         return tokenService.gerarTokenJWT(usuarioValidado);
     }
+
+
 }
