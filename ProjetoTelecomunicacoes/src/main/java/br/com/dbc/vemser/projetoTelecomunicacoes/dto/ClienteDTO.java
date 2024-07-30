@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 public class ClienteDTO extends ClienteCreateDTO {
 
-    private Integer idPessoa;
+    private Integer idCliente;
 
 }

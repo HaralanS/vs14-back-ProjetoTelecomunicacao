@@ -62,4 +62,26 @@
         </sql>
     </changeSet>
 
+    <changeSet id="5" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE SEQUENCE tele_comunicacoes.seq_usuario START 1;
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE TABLE tele_comunicacoes.USUARIO (
+            ID_USUARIO INTEGER PRIMARY KEY DEFAULT nextval('tele_comunicacoes.seq_usuario'),
+            LOGIN VARCHAR(512) UNIQUE NOT NULL,
+            SENHA VARCHAR(512) NOT NULL
+            );
+        </sql>
+    </changeSet>
+    <changeSet id="7" author="haralan.santana">
+        <sql dbms="postgresql">
+            INSERT INTO tele_comunicacoes.USUARIO (LOGIN, SENHA) VALUES ('user', '123');
+        </sql>
+    </changeSet>
+
+
 </databaseChangeLog>
