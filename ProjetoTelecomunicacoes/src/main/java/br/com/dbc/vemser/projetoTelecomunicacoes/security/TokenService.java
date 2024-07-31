@@ -19,7 +19,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TokenService {
     static final String HEADER_STRING = "Authorization";
-    private final UsuarioService usuarioService;
     private static final String TOKEN_PREFIX = "BEARER ";
 
     @Value("${jwt.expiration}")
@@ -28,11 +27,6 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-//    public String getToken(UsuarioEntity usuarioEntity) {
-//        String tokenTexto = usuarioEntity.getLogin() + ";" + usuarioEntity.getSenha(); // thiago.gomes;1234 > 923y978126391
-//        String token = Base64.getEncoder().encodeToString(tokenTexto.getBytes());
-//        return token;
-//    }
 
     public String gerarTokenJWT(UsuarioEntity usuarioEntity) {
         Date now = new Date();

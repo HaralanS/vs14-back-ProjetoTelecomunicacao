@@ -2,6 +2,7 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.controller;
 
 
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.LoginDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.UsuarioDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.UsuarioEntity;
 import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.security.TokenService;
@@ -47,5 +48,9 @@ public class AuthController {
         return tokenService.gerarTokenJWT(usuarioValidado);
     }
 
-
+    @PostMapping("/create")
+    public UsuarioDTO create(@RequestBody @Valid LoginDTO loginDTO) throws RegraDeNegocioException {
+        UsuarioDTO usuarioCriado = usuarioService.create(loginDTO);
+        return usuarioCriado;
+    }
 }
