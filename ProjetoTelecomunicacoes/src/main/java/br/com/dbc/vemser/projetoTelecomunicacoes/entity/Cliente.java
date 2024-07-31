@@ -1,6 +1,7 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.entity;
 
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.TipoDePlano;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,5 +47,14 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Endereco> enderecos;
+
+    @JsonIgnore
+    @OneToOne
+    @JoinTable(
+            name = "CLIENTE_USUARIO",
+            joinColumns = @JoinColumn(name = "ID_CLIENTE"),
+            inverseJoinColumns = @JoinColumn(name = "ID_USUARIO")
+    )
+    private UsuarioEntity usuarioEntity;
 
 }

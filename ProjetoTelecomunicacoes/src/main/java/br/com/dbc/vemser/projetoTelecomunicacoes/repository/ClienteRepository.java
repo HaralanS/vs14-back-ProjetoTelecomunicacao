@@ -29,5 +29,10 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     @Query("SELECT DISTINCT c FROM tb_cliente c WHERE c.idCliente = :idPessoa")
     Optional<Cliente> findClienteTela1ById(@Param("idPessoa") Integer idPessoa);
 
+    @Query("SELECT DISTINCT c FROM tb_cliente c WHERE c.idCliente = :idPessoa")
+    Cliente findClienteUnique(@Param("idPessoa") Integer idPessoa);
+
+
+
 
 }

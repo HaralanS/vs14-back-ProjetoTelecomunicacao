@@ -3,6 +3,7 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.service;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.*;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Cliente;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
+import br.com.dbc.vemser.projetoTelecomunicacoes.entity.UsuarioEntity;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.planos.*;
 import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.repository.ClienteRepository;
@@ -26,12 +27,14 @@ public class ClienteService {
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
     private final FaturaRepository faturaRepository;
+    private final UsuarioService usuarioService;
 
-    public ClienteService(ClienteRepository clienteRepository, ObjectMapper objectMapper, EmailService emailService, FaturaRepository faturaRepository){
+    public ClienteService(ClienteRepository clienteRepository, ObjectMapper objectMapper, EmailService emailService, FaturaRepository faturaRepository, UsuarioService usuarioService){
         this.clienteRepository = clienteRepository;
         this.objectMapper = objectMapper;
         this.emailService = emailService;
         this.faturaRepository = faturaRepository;
+        this.usuarioService = usuarioService;
     }
 
     public List<ClienteDTO> list(){
@@ -70,8 +73,17 @@ public class ClienteService {
     public ClienteDTO createCliente(ClienteCreateDTO dto) throws Exception {
         log.debug("Entrando na ClienteService");
         Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
+
+        LoginDTO loginDTO = objectMapper.convertValue(dto, LoginDTO.class);
+        UsuarioEntity usuarioEntity = objectMapper.convertValue(usuarioService.create(loginDTO), UsuarioEntity.class);
+
+        clienteEntity.setUsuarioEntity(usuarioEntity);
+
         clienteRepository.save(clienteEntity);
         emailService.sendEmail(clienteEntity, "cp");
+
+
+        usuarioService.update(usuarioEntity, clienteEntity.getIdCliente());
 
         TipoDePlano tipoDePlano = clienteEntity.getTipoDePlano();
         Double valorPlano = 0.0;

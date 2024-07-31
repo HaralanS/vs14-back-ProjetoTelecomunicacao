@@ -44,6 +44,14 @@ public class ClienteCreateDTO {
     private boolean status;
 
 
+    @Schema(description = "Login", example = "usuario")
+    @NotBlank
+    private String login;
+
+    @Schema(description = "Senha", example = "usuario123")
+    @NotBlank
+    private String senha;
+
 
 
 }
