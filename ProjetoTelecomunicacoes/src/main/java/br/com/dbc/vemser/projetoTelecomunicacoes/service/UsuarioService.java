@@ -4,6 +4,7 @@ import br.com.dbc.vemser.projetoTelecomunicacoes.dto.ClienteCreateDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.LoginDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.UsuarioCreateDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.UsuarioDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.entity.CargoEntity;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Cliente;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.UsuarioEntity;
 import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
@@ -12,11 +13,14 @@ import br.com.dbc.vemser.projetoTelecomunicacoes.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +37,30 @@ public class UsuarioService {
         return usuarioRepository.findByLoginAndSenha(login, senha);
     }
 
+    public Integer getIdLoggedUser() {
+        Integer findUserId = (Integer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return findUserId;
+    }
+
+    public Optional<UsuarioEntity> getLoggedUser() throws RegraDeNegocioException {
+        return findById(getIdLoggedUser());
+    }
+
     public UsuarioDTO create(LoginDTO loginDTO) throws RegraDeNegocioException {
         UsuarioEntity usuarioEntity = objectMapper.convertValue(loginDTO, UsuarioEntity.class);
+
+        CargoEntity cargoEntity = new CargoEntity();
+        cargoEntity.setIdCargo(2);
+        cargoEntity.setNome("ROLE_USUARIO");
+
+        Set<CargoEntity> cargos = new HashSet<>();
+        cargos.add(cargoEntity);
+
+        usuarioEntity.setCargos(cargos);
+
         StandardPasswordEncoder encoder = new StandardPasswordEncoder(secret);
         usuarioEntity.setSenha(encoder.encode(usuarioEntity.getSenha()));
+
         return objectMapper.convertValue(usuarioRepository.save(usuarioEntity), UsuarioDTO.class);
     }
 

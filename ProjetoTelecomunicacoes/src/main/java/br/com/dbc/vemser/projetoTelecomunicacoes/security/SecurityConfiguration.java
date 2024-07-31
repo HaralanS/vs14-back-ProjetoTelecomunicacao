@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,8 +35,10 @@ public class SecurityConfiguration {
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
-                        .antMatchers("/auth", "/", "/auth/create").permitAll()
-                        .anyRequest().authenticated()
+                        .antMatchers("/auth", "/", "/auth/create", "/auth/create-cliente").permitAll()
+                        .antMatchers("/cliente/**", "/fatura/pessoafatura/{idCliente}", "/fatura/pagar/{idFatura}", "/endereco/{id}", "/endereco/{idPessoa}").hasRole("ADMIN")
+                        .antMatchers("/fatura/paginacao", "/endereco/pessoa/{idPessoa}").hasAnyRole("USUARIO", "ADMIN")
+                        .anyRequest().denyAll()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
 
