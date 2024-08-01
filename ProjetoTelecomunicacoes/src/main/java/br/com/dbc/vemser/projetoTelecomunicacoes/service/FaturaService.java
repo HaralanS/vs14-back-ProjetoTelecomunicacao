@@ -44,7 +44,11 @@ public class FaturaService {
         log.debug("Entrando na FaturaService");
         List<FaturaDTO> list = faturaRepository.findFaturaPorIdPessoa(idCliente)
                 .stream()
-                .map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class))
+                .map(fatura -> {
+                    FaturaDTO faturaDTO = objectMapper.convertValue(fatura, FaturaDTO.class);
+                    faturaDTO.setIdCliente(fatura.getCliente().getIdCliente());
+                    return faturaDTO;
+                })
                 .collect(Collectors.toList());
         return list;
     }
@@ -55,7 +59,11 @@ public class FaturaService {
 
         Page<Fatura> faturaPage = faturaRepository.findAll(pageable);
 
-        Page<FaturaDTO> faturaDTOPage = faturaPage.map(fatura -> objectMapper.convertValue(fatura, FaturaDTO.class));
+        Page<FaturaDTO> faturaDTOPage = faturaPage.map(fatura -> {
+           FaturaDTO faturaDTO = objectMapper.convertValue(fatura, FaturaDTO.class);
+           faturaDTO.setIdCliente(fatura.getCliente().getIdCliente());
+           return faturaDTO;
+        });
 
         if (faturaDTOPage.isEmpty()){
             throw new RegraDeNegocioException("Nenhuma fatura encontrado");

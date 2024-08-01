@@ -48,7 +48,11 @@ public class EnderecoService {
 
         List<EnderecoDTO> list = enderecoRepository.findEnderecoPorIdPessoa(id)
                 .stream()
-                .map(endereco -> objectMapper.convertValue(endereco, EnderecoDTO.class))
+                .map(endereco -> {
+                    EnderecoDTO enderecoDTO = objectMapper.convertValue(endereco, EnderecoDTO.class);
+                    enderecoDTO.setIdPessoa(endereco.getCliente().getIdCliente());
+                    return enderecoDTO;
+                })
                 .collect(Collectors.toList());
         return list;
 
@@ -61,6 +65,7 @@ public class EnderecoService {
         enderecoEntity = enderecoRepository.save(enderecoEntity);
         emailService.sendEmail(clienteService.getPessoa(dto.getIdPessoa()), "ue");
         EnderecoDTO enderecoDTO = objectMapper.convertValue(enderecoEntity, EnderecoDTO.class);
+        enderecoDTO.setIdPessoa(enderecoEntity.getCliente().getIdCliente());
         return enderecoDTO;
     }
 
@@ -73,6 +78,7 @@ public class EnderecoService {
         enderecoEntity.setCliente(clienteService.getPessoa(dto.getIdPessoa()));
         Endereco updatedEndereco = enderecoRepository.save(enderecoEntity);
         EnderecoDTO enderecoDTO = objectMapper.convertValue(updatedEndereco, EnderecoDTO.class);
+        enderecoDTO.setIdPessoa(enderecoEntity.getCliente().getIdCliente());
 //        Cliente clienteEntity = clienteService.getPessoa(enderecoDTO.getIdPessoa());
 //        emailService.sendEmail(clienteEntity, "ue");
         return enderecoDTO;
