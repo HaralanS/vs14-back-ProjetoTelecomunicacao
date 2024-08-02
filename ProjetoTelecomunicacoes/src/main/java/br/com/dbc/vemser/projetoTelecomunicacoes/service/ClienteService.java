@@ -92,7 +92,7 @@ public class ClienteService {
         clienteEntity.setUsuarioEntity(usuarioEntity);
 
         clienteRepository.save(clienteEntity);
-//        usuarioService.update(usuarioEntity, clienteEntity.getIdCliente());
+
 
         createFaturasForCliente(clienteEntity);
 

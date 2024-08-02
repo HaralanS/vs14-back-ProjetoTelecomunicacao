@@ -54,13 +54,6 @@ public class UsuarioService {
         return objectMapper.convertValue(usuarioRepository.save(usuarioEntity), UsuarioDTO.class);
     }
 
-    public UsuarioDTO update(UsuarioEntity loginDTO, Integer id) throws RegraDeNegocioException {
-        Cliente cliente = clienteRepository.findClienteUnique(id);
-        UsuarioEntity usuarioEntity = objectMapper.convertValue(loginDTO, UsuarioEntity.class);
-        usuarioEntity.setCliente(cliente);
-       usuarioEntity.setSenha("teste");
-        return objectMapper.convertValue(usuarioRepository.save(usuarioEntity), UsuarioDTO.class);
-    }
 
     public Optional<UsuarioEntity> findByLogin(String login) {
         return usuarioRepository.findByLogin(login);
