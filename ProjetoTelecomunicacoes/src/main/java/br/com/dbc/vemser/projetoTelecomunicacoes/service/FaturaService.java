@@ -97,11 +97,4 @@ public class FaturaService {
     public Fatura getFatura(Integer id) throws Exception {
         return faturaRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("Fatura de id " + id + " nao encontrada"));
     }
-
-
-
-
-
-
-
 }

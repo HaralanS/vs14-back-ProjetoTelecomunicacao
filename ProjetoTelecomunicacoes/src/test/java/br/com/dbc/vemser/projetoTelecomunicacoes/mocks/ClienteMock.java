@@ -54,6 +54,5 @@ public class ClienteMock {
         clienteCreateDTO.setTipoDePlano(TipoDePlano.ofTipo(1));
         clienteCreateDTO.setStatus(true);
         return clienteCreateDTO;
-        }
     }
 }
