@@ -40,7 +40,11 @@ public class ClienteService {
     public List<ClienteDTO> list(){
         List<ClienteDTO> list = clienteRepository.findAll()
                 .stream()
-                .map(cliente -> objectMapper.convertValue(cliente, ClienteDTO.class))
+                .map(cliente -> {
+                   ClienteDTO clienteDTO = objectMapper.convertValue(cliente, ClienteDTO.class);
+                   clienteDTO.setIdCliente(cliente.getIdCliente());
+                   return clienteDTO;
+                })
                 .collect(Collectors.toList());
         return list;
     }
@@ -48,7 +52,11 @@ public class ClienteService {
     public List<ClienteDTO> listByName(String nome) throws SQLException {
         List<ClienteDTO> list = clienteRepository.findAllByNomeContainsIgnoreCase(nome)
                 .stream()
-                .map(cliente -> objectMapper.convertValue(cliente, ClienteDTO.class))
+                .map(cliente -> {
+                    ClienteDTO clienteDTO = objectMapper.convertValue(cliente, ClienteDTO.class);
+                    clienteDTO.setIdCliente(cliente.getIdCliente());
+                    return clienteDTO;
+                })
                 .collect(Collectors.toList());
         return list;
     }
@@ -56,7 +64,11 @@ public class ClienteService {
     public List<ClienteDTO> listById(Integer id) throws SQLException {
         List<ClienteDTO> list = clienteRepository.findById(id)
                 .stream()
-                .map(cliente -> objectMapper.convertValue(cliente, ClienteDTO.class))
+                .map(cliente -> {
+                    ClienteDTO clienteDTO = objectMapper.convertValue(cliente, ClienteDTO.class);
+                    clienteDTO.setIdCliente(cliente.getIdCliente());
+                    return clienteDTO;
+                })
                 .collect(Collectors.toList());
         return list;
     }
@@ -71,7 +83,7 @@ public class ClienteService {
     }
 
     public ClienteDTO createCliente(ClienteCreateDTO dto) throws Exception {
-        log.debug("Entrando na ClienteService");
+        log.debug("Creating a new Cliente");
         Cliente clienteEntity = objectMapper.convertValue(dto, Cliente.class);
 
         LoginDTO loginDTO = objectMapper.convertValue(dto, LoginDTO.class);
@@ -80,40 +92,46 @@ public class ClienteService {
         clienteEntity.setUsuarioEntity(usuarioEntity);
 
         clienteRepository.save(clienteEntity);
-        emailService.sendEmail(clienteEntity, "cp");
 
 
-        usuarioService.update(usuarioEntity, clienteEntity.getIdCliente());
+        createFaturasForCliente(clienteEntity);
 
-        TipoDePlano tipoDePlano = clienteEntity.getTipoDePlano();
-        Double valorPlano = 0.0;
+        ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
 
-        switch (tipoDePlano){
-            case BASICO:
-                valorPlano = 10.0;
-                break;
-            case MEDIUM:
-                valorPlano = 20.0;
-                break;
-            case PREMIUM:
-                valorPlano = 30.0;
-                break;
-        }
+        clienteDTO.setLogin(usuarioEntity.getLogin());
+        clienteDTO.setSenha("*************");
 
+        return clienteDTO;
+    }
+
+    private void createFaturasForCliente(Cliente clienteEntity) throws RegraDeNegocioException {
+        double valorPlano = getValorPlano(clienteEntity.getTipoDePlano());
         LocalDate dataAtual = LocalDate.now();
 
         for (int i = 0; i < 12; i++) {
-            LocalDate dataVencimento = dataAtual.plusMonths((i + 1));
-            FaturaCreateDTO faturaCreateDTO = new FaturaCreateDTO(clienteEntity.getIdCliente(), dataVencimento, null, valorPlano, 0, (Integer) (i+1));
+            LocalDate dataVencimento = dataAtual.plusMonths(i + 1);
+            FaturaCreateDTO faturaCreateDTO = new FaturaCreateDTO(clienteEntity.getIdCliente(), dataVencimento, null, valorPlano, 0, i + 1);
             Fatura fatura = objectMapper.convertValue(faturaCreateDTO, Fatura.class);
-            fatura.setCliente(getPessoa(clienteEntity.getIdCliente()));
-            log.debug("Criando fatura após criar cliente");
+            fatura.setCliente(getCliente(clienteEntity.getIdCliente()));
+            log.debug("Creating invoice after creating cliente");
             faturaRepository.save(fatura);
         }
-
-        ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
-        return clienteDTO;
     }
+
+    private double getValorPlano(TipoDePlano tipoDePlano) {
+        switch (tipoDePlano) {
+            case BASICO: return 10.0;
+            case MEDIUM: return 20.0;
+            case PREMIUM: return 30.0;
+            default: throw new IllegalArgumentException("Invalid TipoDePlano");
+        }
+    }
+
+    private Cliente getCliente(Integer id) throws RegraDeNegocioException {
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Cliente de id " + id + " nao encontrado"));
+    }
+
 
     public ClienteDTO update(Integer id, ClienteCreateDTO dto) throws Exception {
         log.debug("Entrando na PessoaService");
@@ -127,6 +145,7 @@ public class ClienteService {
 
         clienteRepository.save(clienteEntity);
         ClienteDTO clienteDTO = objectMapper.convertValue(clienteEntity, ClienteDTO.class);
+        clienteDTO.setIdCliente(clienteEntity.getIdCliente());
         return clienteDTO;
     }
 
@@ -143,4 +162,4 @@ public class ClienteService {
         return clienteRepository.findById(id).orElseThrow(() -> new RegraDeNegocioException("Cliente de id " + id + " nao encontrado"));
     }
 
-} 
+}
