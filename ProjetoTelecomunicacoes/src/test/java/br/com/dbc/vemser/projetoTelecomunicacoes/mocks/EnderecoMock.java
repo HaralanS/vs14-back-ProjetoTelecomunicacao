@@ -14,11 +14,11 @@ public class EnderecoMock {
         endereco.setTipo(TipoEndereco.ofTipo(1));
         endereco.setLogradouro("Endereco " + numero);
         endereco.setNumero(numero);
-        endereco.setComplemento("Casa");
-        endereco.setCep("5959599");
-        endereco.setCidade("Santos");
-        endereco.setEstado("São Paulo");
-        endereco.setPais("Brasil");
+        endereco.setComplemento("Casa"+ numero);
+        endereco.setCep("5959599"+ numero);
+        endereco.setCidade("Santos"+ numero);
+        endereco.setEstado("São Paulo"+ numero);
+        endereco.setPais("Brasil"+ numero);
 
         return endereco;
     }
@@ -26,15 +26,16 @@ public class EnderecoMock {
     public EnderecoDTO retornarEntidadeEnderecoDTO(Integer numero) {
 
         EnderecoDTO enderecoDTO = new EnderecoDTO();
+        enderecoDTO.setIdPessoa(numero);
         enderecoDTO.setIdEndereco(numero);
         enderecoDTO.setTipo(TipoEndereco.ofTipo(1));
         enderecoDTO.setLogradouro("Endereco " + numero);
         enderecoDTO.setNumero(numero);
-        enderecoDTO.setComplemento("Casa");
-        enderecoDTO.setCep("5959599");
-        enderecoDTO.setCidade("Santos");
-        enderecoDTO.setEstado("São Paulo");
-        enderecoDTO.setPais("Brasil");
+        enderecoDTO.setComplemento("Casa" +numero);
+        enderecoDTO.setCep("5959599"+numero);
+        enderecoDTO.setCidade("Santos"+numero);
+        enderecoDTO.setEstado("São Paulo"+numero);
+        enderecoDTO.setPais("Brasil"+numero);
 
         return enderecoDTO;
     }
@@ -42,14 +43,15 @@ public class EnderecoMock {
     public EnderecoCreateDTO retornarEntidadeEnderecoCreateDTO(Integer numero) {
 
         EnderecoCreateDTO enderecoCreateDTO = new EnderecoCreateDTO();
+        enderecoCreateDTO.setIdPessoa(numero);
         enderecoCreateDTO.setTipo(TipoEndereco.ofTipo(1));
         enderecoCreateDTO.setLogradouro("Endereco " + numero);
         enderecoCreateDTO.setNumero(numero);
-        enderecoCreateDTO.setComplemento("Casa");
-        enderecoCreateDTO.setCep("5959599");
-        enderecoCreateDTO.setCidade("Santos");
-        enderecoCreateDTO.setEstado("São Paulo");
-        enderecoCreateDTO.setPais("Brasil");
+        enderecoCreateDTO.setComplemento("Casa"+numero);
+        enderecoCreateDTO.setCep("5959599"+numero);
+        enderecoCreateDTO.setCidade("Santos"+numero);
+        enderecoCreateDTO.setEstado("São Paulo"+numero);
+        enderecoCreateDTO.setPais("Brasil"+numero);
 
         return enderecoCreateDTO;
     }
