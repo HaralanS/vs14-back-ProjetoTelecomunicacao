@@ -7,6 +7,8 @@ import br.com.dbc.vemser.projetoTelecomunicacoes.entity.TipoEndereco;
 
 public class EnderecoMock {
 
+    private ClienteMock clienteMock = new ClienteMock();
+
     public Endereco retornarEntidadeEndereco(Integer numero) {
 
         Endereco endereco = new Endereco();
@@ -19,6 +21,7 @@ public class EnderecoMock {
         endereco.setCidade("Santos");
         endereco.setEstado("São Paulo");
         endereco.setPais("Brasil");
+        endereco.setCliente(clienteMock.retronaClienteEntidade(numero));
 
         return endereco;
     }

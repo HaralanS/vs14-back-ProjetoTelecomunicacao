@@ -89,9 +89,10 @@ public class FaturaService {
 
     }
 
-    public void create(FaturaDTO dto) {
+    public FaturaDTO create(FaturaDTO dto) {
         Fatura faturaEntity = objectMapper.convertValue(dto, Fatura.class);
-        faturaRepository.save(faturaEntity);
+        Fatura fatura = faturaRepository.save(faturaEntity);
+        return objectMapper.convertValue(fatura, FaturaDTO.class);
     }
 
     public Fatura getFatura(Integer id) throws Exception {

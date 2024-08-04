@@ -1,5 +1,6 @@
 package br.com.dbc.vemser.projetoTelecomunicacoes.service;
 
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.EnderecoDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Endereco;
 import br.com.dbc.vemser.projetoTelecomunicacoes.mocks.ClienteMock;
 import br.com.dbc.vemser.projetoTelecomunicacoes.mocks.EnderecoMock;
@@ -10,18 +11,28 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import liquibase.pro.packaged.E;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class EnderecoServiceTest {
 
     @InjectMocks
     private EnderecoService enderecoService;
+
     @Mock
     private ObjectMapper objectMapper;
+
     @Mock
     private EnderecoRepository enderecoRepository;
 
@@ -31,6 +42,7 @@ class EnderecoServiceTest {
 
     @BeforeEach
     void init(){
+//        MockitoAnnotations.openMocks(this);
         enderecoMock = new EnderecoMock();
         clienteMock = new ClienteMock();
         ReflectionTestUtils.setField(enderecoService, "objectMapper", getObjectMapperInstance());
@@ -47,6 +59,25 @@ class EnderecoServiceTest {
         return objectMapper;
 
     }
+
+//    listByIdPessoa - Haralan
+
+    @Test
+    void deveListarTodosOsEnderecosPorIdCliente() throws Exception {
+        Integer idCliente = 1;
+
+        List<Endereco> enderecoList = List.of(enderecoMock.retornarEntidadeEndereco(1));
+        when(enderecoRepository.findEnderecoPorIdPessoa(1)).thenReturn(enderecoList);
+
+        List<EnderecoDTO> enderecoDTOList = enderecoService.listByIdPessoa(idCliente);
+
+        assertNotNull(enderecoDTOList);
+        assertEquals(enderecoList.get(0).getCliente().getIdCliente(), enderecoDTOList.get(0).getIdPessoa());
+        assertEquals(enderecoList.get(0).getLogradouro(), enderecoDTOList.get(0).getLogradouro());
+        assertEquals(enderecoList.get(0).getCidade(), enderecoDTOList.get(0).getCidade());
+        assertEquals(enderecoList.get(0).getNumero(), enderecoDTOList.get(0).getNumero());
+    }
+
 
 
 }
