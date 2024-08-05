@@ -56,3 +56,7 @@ Em paralelo criamos um banco de dados postgres no render e conectamos no dbeaver
 ### Cliente(Usuário):
 - Usuário: usuario55
 - Senha: usuario123
+
+### Link para o Render
+
+- https://vs14-back-projetotelecomunicacao.onrender.com/
