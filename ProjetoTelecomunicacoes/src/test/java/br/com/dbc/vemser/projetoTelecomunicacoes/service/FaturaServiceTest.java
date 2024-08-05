@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -118,30 +119,33 @@ class FaturaServiceTest {
         Integer pagina = 0;
         Integer tamanho = 10;
 
-        Cliente cliente = new Cliente();
-        cliente.setIdCliente(1);
+        Fatura fatura1 = faturaMock.retornarEntidadeFatura(1);
+        fatura1.setCliente(clienteMock.retronaClienteEntidade(1));
+        Fatura fatura2 = faturaMock.retornarEntidadeFatura(2);
+        fatura1.setCliente(clienteMock.retronaClienteEntidade(1));
+        Fatura fatura3 = faturaMock.retornarEntidadeFatura(3);
+        fatura1.setCliente(clienteMock.retronaClienteEntidade(1));
 
-        Fatura fatura = new Fatura();
-        fatura.setIdFatura(1);
-        fatura.setCliente(cliente);
+        List<Fatura> faturas = List.of(
+                fatura1,
+                fatura2,
+                fatura3
+        );
 
-        FaturaDTO faturaDTO = new FaturaDTO();
-        faturaDTO.setIdFatura(1);
-        faturaDTO.setIdCliente(1);
+        Pageable pageable = PageRequest.of(pagina, tamanho);
+        Page<Fatura> faturaPage = new PageImpl<>(faturas, pageable, faturas.size());
 
-        Page<Fatura> faturaPage = new PageImpl<>(List.of(fatura));
         when(faturaRepository.findAll(any(Pageable.class))).thenReturn(faturaPage);
-        when(objectMapper.convertValue(fatura, FaturaDTO.class)).thenReturn(faturaDTO);
+
 
         PageDTO<FaturaDTO> result = faturaService.listFaturasPaginacao(pagina, tamanho);
 
         assertNotNull(result);
-        assertEquals(1, result.getTotalElements());
+        assertEquals(3, result.getTotalElements());
         assertEquals(1, result.getTotalPages());
         assertEquals(0, result.getPage());
         assertEquals(10, result.getSize());
-        assertEquals(1, result.getContent().size());
-        assertEquals(faturaDTO, result.getContent().get(0));
+        assertEquals(3, result.getContent().size());
     }
 
 }

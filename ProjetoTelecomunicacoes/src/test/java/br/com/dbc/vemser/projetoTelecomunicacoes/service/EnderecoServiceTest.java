@@ -106,8 +106,6 @@ class EnderecoServiceTest {
         cliente.setIdCliente(1);
 
         when(enderecoRepository.findById(enderecoId)).thenReturn(Optional.of(endereco));
-        ClienteService clienteService = null;
-        when(clienteService.getPessoa(enderecoId)).thenReturn(cliente);
 
         enderecoService.delete(enderecoId);
 
