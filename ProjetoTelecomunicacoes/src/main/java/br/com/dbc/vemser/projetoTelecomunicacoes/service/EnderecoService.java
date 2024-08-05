@@ -94,7 +94,7 @@ public class EnderecoService {
 //        emailService.sendEmail(clienteEntity, "de");
     }
 
-    private Endereco getEndereco(Integer id) throws RegraDeNegocioException {
+    Endereco getEndereco(Integer id) throws RegraDeNegocioException {
         return enderecoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
     }

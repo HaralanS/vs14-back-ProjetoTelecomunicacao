@@ -2,8 +2,11 @@ package br.com.dbc.vemser.projetoTelecomunicacoes.service;
 
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.EnderecoDTO;
 import br.com.dbc.vemser.projetoTelecomunicacoes.dto.FaturaDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.dto.PageDTO;
+import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Cliente;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Endereco;
 import br.com.dbc.vemser.projetoTelecomunicacoes.entity.Fatura;
+import br.com.dbc.vemser.projetoTelecomunicacoes.exceptions.RegraDeNegocioException;
 import br.com.dbc.vemser.projetoTelecomunicacoes.mocks.ClienteMock;
 import br.com.dbc.vemser.projetoTelecomunicacoes.mocks.FaturaMock;
 import br.com.dbc.vemser.projetoTelecomunicacoes.repository.FaturaRepository;
@@ -17,6 +20,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
@@ -104,6 +110,38 @@ class FaturaServiceTest {
         assertEquals(faturas.get(1).getDataBaixa(), faturaDTOList.get(1).getDataBaixa());
         assertEquals(faturas.get(2).getDataBaixa(), faturaDTOList.get(2).getDataBaixa());
 
+    }
+
+
+    @Test
+    void testListFaturasPaginacao() throws RegraDeNegocioException {
+        Integer pagina = 0;
+        Integer tamanho = 10;
+
+        Cliente cliente = new Cliente();
+        cliente.setIdCliente(1);
+
+        Fatura fatura = new Fatura();
+        fatura.setIdFatura(1);
+        fatura.setCliente(cliente);
+
+        FaturaDTO faturaDTO = new FaturaDTO();
+        faturaDTO.setIdFatura(1);
+        faturaDTO.setIdCliente(1);
+
+        Page<Fatura> faturaPage = new PageImpl<>(List.of(fatura));
+        when(faturaRepository.findAll(any(Pageable.class))).thenReturn(faturaPage);
+        when(objectMapper.convertValue(fatura, FaturaDTO.class)).thenReturn(faturaDTO);
+
+        PageDTO<FaturaDTO> result = faturaService.listFaturasPaginacao(pagina, tamanho);
+
+        assertNotNull(result);
+        assertEquals(1, result.getTotalElements());
+        assertEquals(1, result.getTotalPages());
+        assertEquals(0, result.getPage());
+        assertEquals(10, result.getSize());
+        assertEquals(1, result.getContent().size());
+        assertEquals(faturaDTO, result.getContent().get(0));
     }
 
 }
