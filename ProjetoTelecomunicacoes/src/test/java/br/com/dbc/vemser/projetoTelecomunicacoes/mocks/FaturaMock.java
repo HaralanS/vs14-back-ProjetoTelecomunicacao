@@ -7,6 +7,8 @@ import java.time.LocalDate;
 
 public class FaturaMock {
 
+    private ClienteMock clienteMock = new ClienteMock();
+
     public Fatura retornarEntidadeFatura(Integer numero) {
         Fatura  fatura = new Fatura();
         fatura.setIdFatura(numero);
@@ -15,6 +17,7 @@ public class FaturaMock {
         fatura.setParcelaDoPlano(90);
         fatura.setValorPago(180);
         fatura.setNumeroFatura(numero);
+        fatura.setCliente(clienteMock.retronaClienteEntidade(numero));
 
         return fatura;
     }
