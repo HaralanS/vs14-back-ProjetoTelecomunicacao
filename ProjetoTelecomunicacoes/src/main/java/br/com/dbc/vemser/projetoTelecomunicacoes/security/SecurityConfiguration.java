@@ -36,8 +36,9 @@ public class SecurityConfiguration {
                 .and().csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers("/auth", "/", "/auth/create", "/auth/create-cliente").permitAll()
-                        .antMatchers("/cliente/**", "/fatura/pessoafatura/{idCliente}", "/fatura/pagar/{idFatura}", "/endereco/{id}", "/endereco").hasRole("ADMIN")
-                        .antMatchers("/fatura/paginacao", "/endereco/pessoa/{idPessoa}").hasAnyRole("USUARIO", "ADMIN")
+                        .antMatchers(HttpMethod.GET, "/cliente/**").hasAnyRole("USUARIO", "ADMIN")
+                        .antMatchers("/fatura/paginacao", "/cliente/**", "/endereco/{id}").hasRole("ADMIN")
+                        .antMatchers( "/fatura/pessoafatura/{idCliente}", "/fatura/pagar/{idFatura}","/endereco/pessoa/{idPessoa}", "/endereco").hasAnyRole("USUARIO", "ADMIN")
                         .anyRequest().denyAll()
                 );
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
