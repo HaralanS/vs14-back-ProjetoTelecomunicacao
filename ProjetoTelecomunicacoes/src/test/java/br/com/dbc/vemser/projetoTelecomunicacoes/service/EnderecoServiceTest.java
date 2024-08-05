@@ -202,7 +202,7 @@ class EnderecoServiceTest {
     }
 
     @Test
-    void TestarPegarEndereco() throws RegraDeNegocioException {
+    void testarPegarEndereco() throws RegraDeNegocioException {
         Integer enderecoId = 1;
         Endereco endereco = new Endereco();
         endereco.setIdEndereco(enderecoId);
@@ -215,7 +215,7 @@ class EnderecoServiceTest {
     }
 
     @Test
-    void testDeleteEndereco() throws Exception {
+    void testarDeletarEndereco() throws Exception {
         Integer enderecoId = 1;
         Endereco endereco = new Endereco();
         endereco.setIdEndereco(enderecoId);
