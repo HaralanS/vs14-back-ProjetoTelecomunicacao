@@ -43,3 +43,16 @@ Em paralelo criamos um banco de dados postgres no render e conectamos no dbeaver
 - [Haralan Santana](https://github.com/HaralanS)
 - [Igor Bueno](https://github.com/igorbuenov)
 - [João Vitor Xavier](https://github.com/joaovxsantos)
+
+
+## Padrões utilizados
+
+- Possuímos dois tipos de usuários: Admin e Usuário
+
+### Admin
+- Usuário: admin
+- Senha: admin123
+
+### Cliente(Usuário):
+- Usuário: usuario55
+- Senha: usuario123
