@@ -100,12 +100,12 @@ public class EnderecoService {
         Endereco enderecoRecuperado = enderecoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
         enderecoRepository.delete(enderecoRecuperado);
-        emailService.sendEmail(clienteService.getPessoa(id), "de");
+//        emailService.sendEmail(clienteService.getPessoa(id), "de");
 //        Cliente clienteEntity = clienteService.getPessoa(enderecoRecuperado.getIdPessoa());
 //        emailService.sendEmail(clienteEntity, "de");
     }
 
-    private Endereco getEndereco(Integer id) throws RegraDeNegocioException {
+    Endereco getEndereco(Integer id) throws RegraDeNegocioException {
         return enderecoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Endereço não encontrado!"));
     }

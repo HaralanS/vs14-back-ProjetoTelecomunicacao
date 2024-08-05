@@ -29,7 +29,7 @@ public class ClienteService {
     private final FaturaRepository faturaRepository;
     private final UsuarioService usuarioService;
 
-    public ClienteService(ClienteRepository clienteRepository, ObjectMapper objectMapper, EmailService emailService, FaturaRepository faturaRepository, UsuarioService usuarioService){
+    public ClienteService(ClienteRepository clienteRepository, ObjectMapper objectMapper, EmailService emailService, FaturaRepository faturaRepository, UsuarioService usuarioService) {
         this.clienteRepository = clienteRepository;
         this.objectMapper = objectMapper;
         this.emailService = emailService;
@@ -37,13 +37,13 @@ public class ClienteService {
         this.usuarioService = usuarioService;
     }
 
-    public List<ClienteDTO> list(){
+    public List<ClienteDTO> list() {
         List<ClienteDTO> list = clienteRepository.findAll()
                 .stream()
                 .map(cliente -> {
-                   ClienteDTO clienteDTO = objectMapper.convertValue(cliente, ClienteDTO.class);
-                   clienteDTO.setIdCliente(cliente.getIdCliente());
-                   return clienteDTO;
+                    ClienteDTO clienteDTO = objectMapper.convertValue(cliente, ClienteDTO.class);
+                    clienteDTO.setIdCliente(cliente.getIdCliente());
+                    return clienteDTO;
                 })
                 .collect(Collectors.toList());
         return list;
@@ -72,10 +72,11 @@ public class ClienteService {
                 .collect(Collectors.toList());
         return list;
     }
+
     public ClienteTela1DTO findClienteTela1ById(Integer id) throws SQLException, RegraDeNegocioException {
 
         Optional<Cliente> cliente = clienteRepository.findClienteTela1ById(id);
-        if (cliente == null){
+        if (cliente == null) {
             throw new RegraDeNegocioException("Nao existem clientes com o id: " + id);
         }
         ClienteTela1DTO clienteTela1DTO = objectMapper.convertValue(cliente, ClienteTela1DTO.class);
@@ -120,10 +121,14 @@ public class ClienteService {
 
     private double getValorPlano(TipoDePlano tipoDePlano) {
         switch (tipoDePlano) {
-            case BASICO: return 10.0;
-            case MEDIUM: return 20.0;
-            case PREMIUM: return 30.0;
-            default: throw new IllegalArgumentException("Invalid TipoDePlano");
+            case BASICO:
+                return 10.0;
+            case MEDIUM:
+                return 20.0;
+            case PREMIUM:
+                return 30.0;
+            default:
+                throw new IllegalArgumentException("Invalid TipoDePlano");
         }
     }
 
