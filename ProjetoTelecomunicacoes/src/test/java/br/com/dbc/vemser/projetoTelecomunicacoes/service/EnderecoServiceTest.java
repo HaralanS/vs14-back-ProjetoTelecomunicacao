@@ -15,15 +15,22 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+
+import org.springframework.test.util.ReflectionTestUtils;
+import java.util.Collections;
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EnderecoServiceTest {
@@ -43,6 +50,7 @@ class EnderecoServiceTest {
 
     @BeforeEach
     void init(){
+//        MockitoAnnotations.openMocks(this);
         enderecoMock = new EnderecoMock();
         clienteMock = new ClienteMock();
     }
@@ -81,6 +89,7 @@ class EnderecoServiceTest {
         verify(objectMapper).convertValue(enderecosMock.get(2), EnderecoDTO.class);
     }
 
+
     @Test
     void deveRetornarEnderecoDTOPorIdComSucesso() throws RegraDeNegocioException {
         // Arrange
@@ -90,6 +99,28 @@ class EnderecoServiceTest {
 
         when(enderecoRepository.findById(id)).thenReturn(Optional.of(endereco));
         when(objectMapper.convertValue(endereco, EnderecoDTO.class)).thenReturn(enderecoDTO);
+
+      
+//    listByIdPessoa - Haralan
+
+    @Test
+    void deveListarTodosOsEnderecosPorIdCliente() throws Exception {
+        Integer idCliente = 1;
+
+        List<Endereco> enderecoList = List.of(enderecoMock.retornarEntidadeEndereco(1));
+        when(enderecoRepository.findEnderecoPorIdPessoa(1)).thenReturn(enderecoList);
+
+        List<EnderecoDTO> enderecoDTOList = enderecoService.listByIdPessoa(idCliente);
+
+        assertNotNull(enderecoDTOList);
+        assertEquals(enderecoList.get(0).getCliente().getIdCliente(), enderecoDTOList.get(0).getIdPessoa());
+        assertEquals(enderecoList.get(0).getLogradouro(), enderecoDTOList.get(0).getLogradouro());
+        assertEquals(enderecoList.get(0).getCidade(), enderecoDTOList.get(0).getCidade());
+        assertEquals(enderecoList.get(0).getNumero(), enderecoDTOList.get(0).getNumero());
+    }
+
+
+
 
         // Act
         EnderecoDTO resultado = enderecoService.listById(id);
