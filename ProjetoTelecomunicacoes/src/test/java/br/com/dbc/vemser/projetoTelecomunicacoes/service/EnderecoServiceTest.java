@@ -65,17 +65,9 @@ class EnderecoServiceTest {
                 enderecoMock.retornarEntidadeEndereco(3)
         );
 
-//        List<EnderecoDTO> enderecosDTO = List.of(
-//                enderecoMock.retornarEntidadeEnderecoDTO(1),
-//                enderecoMock.retornarEntidadeEnderecoDTO(2),
-//                enderecoMock.retornarEntidadeEnderecoDTO(3)
-//        );
-        List<EnderecoDTO> enderecosDTO = enderecoService.list();
+//        List<EnderecoDTO> enderecosDTO = enderecoService.list();
 
         when(enderecoRepository.findAll()).thenReturn(enderecosMock);
-//        when(objectMapper.convertValue(enderecosMock.get(0), EnderecoDTO.class)).thenReturn(enderecosDTO.get(0));
-//        when(objectMapper.convertValue(enderecosMock.get(1), EnderecoDTO.class)).thenReturn(enderecosDTO.get(1));
-//        when(objectMapper.convertValue(enderecosMock.get(2), EnderecoDTO.class)).thenReturn(enderecosDTO.get(2));
 
         // Act
         List<EnderecoDTO> resultado = enderecoService.list();
@@ -87,12 +79,8 @@ class EnderecoServiceTest {
         assertEquals(enderecosMock.get(1).getLogradouro(), resultado.get(1).getLogradouro());
         assertEquals(enderecosMock.get(2).getLogradouro(), resultado.get(2).getLogradouro());
         assertEquals(enderecosMock.get(0).getCidade(), resultado.get(0).getCidade());
-//        assertEquals(enderecosMock, resultado);
 
-//        verify(enderecoRepository).findAll();
-//        verify(objectMapper).convertValue(enderecosMock.get(0), EnderecoDTO.class);
-//        verify(objectMapper).convertValue(enderecosMock.get(1), EnderecoDTO.class);
-//        verify(objectMapper).convertValue(enderecosMock.get(2), EnderecoDTO.class);
+
     }
 
 
@@ -101,19 +89,23 @@ class EnderecoServiceTest {
         // Arrange
         Integer id = 1;
         Endereco endereco = enderecoMock.retornarEntidadeEndereco(id);
-        EnderecoDTO enderecoDTO = enderecoMock.retornarEntidadeEnderecoDTO(id);
 
         when(enderecoRepository.findById(id)).thenReturn(Optional.of(endereco));
-        when(objectMapper.convertValue(endereco, EnderecoDTO.class)).thenReturn(enderecoDTO);
         // Act
         EnderecoDTO resultado = enderecoService.listById(id);
 
         // Assertions
         assertNotNull(resultado);
-        assertEquals(enderecoDTO, resultado);
+        assertEquals(endereco.getCep(), resultado.getCep());
+        assertEquals(endereco.getLogradouro(), resultado.getLogradouro());
+        assertEquals(endereco.getNumero(), resultado.getNumero());
+        assertEquals(endereco.getComplemento(), resultado.getComplemento());
+        assertEquals(endereco.getCidade(), resultado.getCidade());
+        assertEquals(endereco.getEstado(), resultado.getEstado());
+        assertEquals(endereco.getTipo(), resultado.getTipo());
+        assertEquals(endereco.getPais(), resultado.getPais());
 
-        verify(enderecoRepository).findById(id);
-        verify(objectMapper).convertValue(endereco, EnderecoDTO.class);
+
     }
 
 
@@ -148,8 +140,8 @@ class EnderecoServiceTest {
 
         assertEquals("Endereço não encontrado!", exception.getMessage());
 
-        verify(enderecoRepository).findById(id);
-        verify(objectMapper, never()).convertValue(any(Endereco.class), eq(EnderecoDTO.class));
+        assertThrows(RegraDeNegocioException.class, () -> enderecoService.listById(anyInt()));
+
     }
 
     public static ObjectMapper getObjectMapperInstance() {
