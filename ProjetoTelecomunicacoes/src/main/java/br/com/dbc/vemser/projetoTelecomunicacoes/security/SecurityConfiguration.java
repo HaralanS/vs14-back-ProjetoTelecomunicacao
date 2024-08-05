@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                 .and().csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
                         .antMatchers("/auth", "/", "/auth/create", "/auth/create-cliente").permitAll()
-                        .antMatchers("/cliente/**", "/fatura/pessoafatura/{idCliente}", "/fatura/pagar/{idFatura}", "/endereco/{id}", "/endereco/{idPessoa}").hasRole("ADMIN")
+                        .antMatchers("/cliente/**", "/fatura/pessoafatura/{idCliente}", "/fatura/pagar/{idFatura}", "/endereco/{id}", "/endereco").hasRole("ADMIN")
                         .antMatchers("/fatura/paginacao", "/endereco/pessoa/{idPessoa}").hasAnyRole("USUARIO", "ADMIN")
                         .anyRequest().denyAll()
                 );
