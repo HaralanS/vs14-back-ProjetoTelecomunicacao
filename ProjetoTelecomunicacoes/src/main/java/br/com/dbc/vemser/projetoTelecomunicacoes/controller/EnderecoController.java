@@ -34,10 +34,10 @@ public class EnderecoController {
         return new ResponseEntity<>(enderecoDTOList, HttpStatus.OK);
     }
 
-    @PostMapping("/{idPessoa}") // POST http://localhost:8080/endereco/{idPessoa}
-    public ResponseEntity<EnderecoDTO> createEndereco(@PathVariable("idPessoa") Integer id, @Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception {
+    @PostMapping() // POST http://localhost:8080/endereco/{idPessoa}
+    public ResponseEntity<EnderecoDTO> createEndereco(@Valid @RequestBody EnderecoCreateDTO enderecoCreateDTO) throws Exception {
         log.debug("Criando endereço!");
-        EnderecoDTO enderecoCriado = enderecoService.create(id, enderecoCreateDTO);
+        EnderecoDTO enderecoCriado = enderecoService.create(enderecoCreateDTO);
         log.debug("Criou endereço com sucesso!");
         return new ResponseEntity<>(enderecoCriado, HttpStatus.OK);
     }

@@ -24,9 +24,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String tokenFromHeader = getTokenFromHeader(request);
-        Optional<UsuarioEntity> usuario = tokenService.isValid(tokenFromHeader);
-
-        authenticate(usuario);
+        UsernamePasswordAuthenticationToken user = tokenService.isValid(tokenFromHeader);
+        SecurityContextHolder.getContext().setAuthentication(user);
 
         filterChain.doFilter(request, response);
     }

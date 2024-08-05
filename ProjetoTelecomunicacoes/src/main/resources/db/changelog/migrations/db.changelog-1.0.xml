@@ -77,11 +77,56 @@
             );
         </sql>
     </changeSet>
+
     <changeSet id="7" author="haralan.santana">
         <sql dbms="postgresql">
             INSERT INTO tele_comunicacoes.USUARIO (LOGIN, SENHA) VALUES ('user', '123');
         </sql>
     </changeSet>
+
+    <changeSet id="8" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE TABLE tele_comunicacoes.CARGO(
+            ID_CARGO INTEGER PRIMARY KEY,
+            NOME varchar(512) UNIQUE NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="9" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE TABLE tele_comunicacoes.USUARIO_CARGO(
+            ID_USUARIO INTEGER NOT NULL,
+            ID_CARGO INTEGER NOT NULL,
+            PRIMARY KEY(ID_USUARIO, ID_CARGO),
+            CONSTRAINT FK_USUARIO_CARGO_CARGO FOREIGN KEY (ID_CARGO) REFERENCES tele_comunicacoes.CARGO (ID_CARGO),
+            CONSTRAINT FK_USUARIO_CARGO_USUARIO FOREIGN KEY (ID_USUARIO) REFERENCES tele_comunicacoes.USUARIO (ID_USUARIO)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="10" author="haralan.santana">
+        <sql dbms="postgresql">
+            CREATE TABLE tele_comunicacoes.CLIENTE_USUARIO(
+            ID_USUARIO INTEGER NOT NULL,
+            ID_CLIENTE INTEGER NOT NULL,
+            PRIMARY KEY(ID_USUARIO, ID_CLIENTE),
+            CONSTRAINT FK_USUARIO_CLIENTE_CLIENTE FOREIGN KEY (ID_CLIENTE) REFERENCES tele_comunicacoes.TB_CLIENTE (ID_CLIENTE),
+            CONSTRAINT FK_USUARIO_CLIENTE_USUARIO FOREIGN KEY (ID_USUARIO) REFERENCES tele_comunicacoes.USUARIO (ID_USUARIO)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="11" author="haralan.santana">
+        <sql dbms="postgresql">
+            INSERT INTO CARGO (ID_CARGO, NOME)
+            VALUES (1, 'ROLE_ADMIN');
+
+            INSERT INTO CARGO (ID_CARGO, NOME)
+            VALUES (2, 'ROLE_USUARIO');
+        </sql>
+    </changeSet>
+
 
 
 </databaseChangeLog>
