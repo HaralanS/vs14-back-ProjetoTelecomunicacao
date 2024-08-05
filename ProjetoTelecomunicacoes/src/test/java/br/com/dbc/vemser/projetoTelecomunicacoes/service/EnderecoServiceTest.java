@@ -53,6 +53,7 @@ class EnderecoServiceTest {
 //        MockitoAnnotations.openMocks(this);
         enderecoMock = new EnderecoMock();
         clienteMock = new ClienteMock();
+        ReflectionTestUtils.setField(enderecoService, "objectMapper", getObjectMapperInstance());
     }
 
     @Test
@@ -99,29 +100,6 @@ class EnderecoServiceTest {
 
         when(enderecoRepository.findById(id)).thenReturn(Optional.of(endereco));
         when(objectMapper.convertValue(endereco, EnderecoDTO.class)).thenReturn(enderecoDTO);
-
-      
-//    listByIdPessoa - Haralan
-
-    @Test
-    void deveListarTodosOsEnderecosPorIdCliente() throws Exception {
-        Integer idCliente = 1;
-
-        List<Endereco> enderecoList = List.of(enderecoMock.retornarEntidadeEndereco(1));
-        when(enderecoRepository.findEnderecoPorIdPessoa(1)).thenReturn(enderecoList);
-
-        List<EnderecoDTO> enderecoDTOList = enderecoService.listByIdPessoa(idCliente);
-
-        assertNotNull(enderecoDTOList);
-        assertEquals(enderecoList.get(0).getCliente().getIdCliente(), enderecoDTOList.get(0).getIdPessoa());
-        assertEquals(enderecoList.get(0).getLogradouro(), enderecoDTOList.get(0).getLogradouro());
-        assertEquals(enderecoList.get(0).getCidade(), enderecoDTOList.get(0).getCidade());
-        assertEquals(enderecoList.get(0).getNumero(), enderecoDTOList.get(0).getNumero());
-    }
-
-
-
-
         // Act
         EnderecoDTO resultado = enderecoService.listById(id);
 
@@ -131,6 +109,25 @@ class EnderecoServiceTest {
 
         verify(enderecoRepository).findById(id);
         verify(objectMapper).convertValue(endereco, EnderecoDTO.class);
+    }
+
+
+    @Test
+    void deveListarTodosOsEnderecosPorIdCliente() throws Exception {
+        Integer idCliente = 1;
+
+        List<Endereco> enderecoList = List.of(enderecoMock.retornarEntidadeEndereco(1));
+        when(enderecoRepository.findEnderecoPorIdPessoa(1)).thenReturn(enderecoList);
+
+        System.out.println(enderecoList.get(0).getCliente().getIdCliente());
+
+        List<EnderecoDTO> enderecoDTOList = enderecoService.listByIdPessoa(idCliente);
+
+        assertNotNull(enderecoDTOList);
+        assertEquals(enderecoList.get(0).getCliente().getIdCliente(), enderecoDTOList.get(0).getIdPessoa());
+        assertEquals(enderecoList.get(0).getLogradouro(), enderecoDTOList.get(0).getLogradouro());
+        assertEquals(enderecoList.get(0).getCidade(), enderecoDTOList.get(0).getCidade());
+        assertEquals(enderecoList.get(0).getNumero(), enderecoDTOList.get(0).getNumero());
     }
 
     @Test
